@@ -4,10 +4,11 @@
   "description": "\"API para la gestión de clientes de una tienda online de motos.\"",
   "main": "index.js",
   "directories": {
-    "test": "tests"
+    "test": "test"
   },
   "scripts": {
-    "test": "jest --config jest.config.js"
+    "build": "tsc",
+    "test": "jest --config jest.config.js --coverage"
   },
   "repository": {
     "type": "git",
