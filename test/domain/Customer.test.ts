@@ -8,4 +8,10 @@ describe('Customer Entity', () => {
     expect(customer.email).toBe('test@example.com');
     expect(customer.availableCredit).toBe(100);
   });
+
+  it('should add credit to a customer', () => {
+    const customer = new Customer('1', 'Test', 'test@example.com', 100);
+    customer.addCredit(50);
+    expect(customer.availableCredit).toBe(150);
+  });
 });
