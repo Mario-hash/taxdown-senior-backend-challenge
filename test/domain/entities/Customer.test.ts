@@ -1,4 +1,4 @@
-import { Customer } from '../../src/domain/entities/Customer';
+import { Customer } from '../../../src/domain/entities/Customer';
 
 describe('Customer Entity', () => {
   it('should create a customer with provided attributes', () => {
