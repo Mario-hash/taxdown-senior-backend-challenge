@@ -78,4 +78,18 @@ describe('CustomerService addCredit initial test', () => {
     // Assert
     expect(customerRepository.delete).toHaveBeenCalledWith("1");
   });
+
+  test('listCustomersSortedByCredit should return customers sorted descending by availableCredit', async () => {
+    // Arrange
+    const customer2 = new Customer("2", "User Two", "two@example.com", 200);
+    customerRepository.findAll.mockResolvedValueOnce([testCustomer, customer2]);
+    
+    // Act
+    const sorted = await customerService.listCustomersSortedByCredit();
+    
+    // Assert
+    expect(customerRepository.findAll).toHaveBeenCalled();
+    expect(sorted[0].id).toBe("2");
+    expect(sorted[1].id).toBe("1");
+  });
 });
