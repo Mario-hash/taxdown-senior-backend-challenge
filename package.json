@@ -1,0 +1,39 @@
+{
+  "name": "taxdown-senior-backend-challenge",
+  "version": "1.0.0",
+  "description": "\"API para la gestión de clientes de una tienda online de motos.\"",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest --config jest.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mario-hash/taxdown-senior-backend-challenge.git"
+  },
+  "keywords": [
+    "taxdown",
+    "backend",
+    "node",
+    "typescript",
+    "DDD",
+    "TDD",
+    "hexagonal",
+    "serverless",
+    "ecommerce",
+    "rest-api"
+  ],
+  "author": "Mario Ángel Fernández Santos-Olmo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mario-hash/taxdown-senior-backend-challenge/issues"
+  },
+  "homepage": "https://github.com/Mario-hash/taxdown-senior-backend-challenge#readme",
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.3.0"
+  }
+}
