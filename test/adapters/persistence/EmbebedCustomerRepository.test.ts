@@ -19,4 +19,34 @@ describe('MemoryCustomerRepository', () => {
     expect(customer).not.toBeNull();
     expect(customer?.id).toBe("1");
   });
+
+  it('should update a customer', async () => {
+    // Arrange
+    await repo.create(testCustomer);
+    //Act
+    testCustomer.availableCredit = 150;
+    await repo.update(testCustomer);
+    const customer = await repo.findById("1");
+    //Assert
+    expect(customer?.availableCredit).toBe(150);
+  });
+
+  it('should delete a customer', async () => {
+    // Arrange
+    await repo.create(testCustomer);
+    //Act
+    await repo.delete("1");
+    const customer = await repo.findById("1");
+    //Assert
+    expect(customer).toBeNull();
+  });
+
+  it('should return all customers', async () => {
+    // Arrange
+    await repo.create(testCustomer);
+    //Act
+    const customers = await repo.findAll();
+    //Assert
+    expect(customers.length).toBe(1);
+  });
 });
