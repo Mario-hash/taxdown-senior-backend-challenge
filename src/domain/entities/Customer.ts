@@ -5,4 +5,8 @@ export class Customer {
       public email: string,
       public availableCredit: number = 0
     ) {}
+
+    addCredit(amount: number): void {
+        this.availableCredit += amount;
+    }
   }
