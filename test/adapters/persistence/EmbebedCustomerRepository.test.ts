@@ -1,5 +1,6 @@
 import { EmbebedCustomerRepository } from '../../../src/adapters/persistence/EmbebedCustomerRepositoryImpl';
 import { Customer } from '../../../src/domain/entities/Customer';
+import { Email } from '../../../src/domain/vo/Email';
 
 describe('MemoryCustomerRepository', () => {
   let repo: EmbebedCustomerRepository;
@@ -7,7 +8,7 @@ describe('MemoryCustomerRepository', () => {
 
   beforeEach(() => {
     repo = new EmbebedCustomerRepository();
-    testCustomer = new Customer("1", "Test User", "test@example.com", 100);
+    testCustomer = new Customer("1", "Test User", new Email('test@example.com') , 100);
   });
 
   it('should create and find a customer by id', async () => {

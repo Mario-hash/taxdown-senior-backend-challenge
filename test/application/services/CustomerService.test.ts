@@ -1,6 +1,7 @@
 import { Customer } from "../../../src/domain/entities/Customer";
 import { CustomerService } from "../../../src/application/services/CustomerService";
 import { ICustomerRepository } from "../../../src/domain/repository/ICustomerRepository";
+import { Email } from "../../../src/domain/vo/Email";
 
 describe('CustomerService addCredit initial test', () => {
   let customerRepository: jest.Mocked<ICustomerRepository>;
@@ -8,7 +9,7 @@ describe('CustomerService addCredit initial test', () => {
   let testCustomer: Customer;
 
   beforeEach(() => {
-    testCustomer = new Customer("1", "Test User", "test@example.com", 100);
+    testCustomer = new Customer("1", "Test User", new Email('test@example.com'), 100);
 
     // Objeto simulado que cumple con ICustomerRepository
     customerRepository = {
@@ -33,7 +34,7 @@ describe('CustomerService addCredit initial test', () => {
   });
 
   it('should throw an error if customer is not found', async () => {
-    // Forzamos a que findById devuelva null
+    // Act
     customerRepository.findById.mockResolvedValueOnce(null);
     
     // Assert
@@ -81,7 +82,7 @@ describe('CustomerService addCredit initial test', () => {
 
   it('listCustomersSortedByCredit should return customers sorted descending by availableCredit', async () => {
     // Arrange
-    const customer2 = new Customer("2", "User Two", "two@example.com", 200);
+    const customer2 = new Customer("2", "User Two", new Email("two@example.com"), 200);
     customerRepository.findAll.mockResolvedValueOnce([testCustomer, customer2]);
     
     // Act
