@@ -1,22 +1,31 @@
 import { Router, Request, Response } from 'express';
+import { Customer } from '../../domain/entities/Customer';
+import { CustomerService } from '../../application/services/CustomerService';
+import { EmbebedCustomerRepository } from '../persistence/EmbebedCustomerRepositoryImpl';
 
 const router = Router();
 
-router.post('/customers/:id/credit', (req: Request, res: Response) => {
+const repository = new EmbebedCustomerRepository();
+const customerService = new CustomerService(repository);
+
+router.post('/customers/:id/credit',async (req: Request, res: Response) => {
   const { id } = req.params;
-  // Por ahora devuelvo mensaje fijo
-  res.status(200).json({ message: `Added credit to customer ${id} (stub)` });
+  const { amount } = req.body;
+  const updatedCustomer = await customerService.addCredit(id, amount);
+  res.status(200).json(updatedCustomer);
 });
 
 router.post('/customers', async (req: Request, res: Response) => {
-  // Por ahora devuelvo mensaje fijo, CustomerService.createCustomer
-  res.status(201).json({ message: 'Customer created (stub)' });
+  const { id, name, email, availableCredit } = req.body;
+  const customer = new Customer(id, name, email, availableCredit ?? 0);
+  const createdCustomer = await customerService.createCustomer(customer);
+  res.status(201).json(createdCustomer);
 });
 
 router.get('/customers/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
-  // Por ahora devuelvo mensaje fijo, CustomerService.getCustomer
-  res.status(200).json({ message: `Customer details for ${id} (stub)` });
+  const customer = await customerService.getCustomer(id);
+  res.status(200).json(customer);
 });
 
 router.put('/customers/:id', async (req: Request, res: Response) => {
@@ -27,12 +36,12 @@ router.put('/customers/:id', async (req: Request, res: Response) => {
 
 router.delete('/customers/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
-  //  Por ahora devuelvo mensaje fijo, CustomerService.deleteCustomer
-  res.status(200).json({ message: `Customer ${id} deleted (stub)` });
+  await customerService.deleteCustomer(id);
+  res.status(200).json({ message: `Customer ${id} deleted` });
 });
 
 router.get('/customers', async (req: Request, res: Response) => {
-  // Por ahora devuelvo mensaje fijo, CustomerService.listCustomersSortedByCredit
-  res.status(200).json({ message: 'List of customers sorted by available credit (stub)' });
+  const customers = await customerService.listCustomersSortedByCredit();
+  res.status(200).json(customers);
 });
 export default router;
