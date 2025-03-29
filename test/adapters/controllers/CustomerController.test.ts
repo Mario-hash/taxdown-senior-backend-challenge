@@ -17,4 +17,53 @@ describe('Customer API Endpoints', () => {
     expect(response.status).toBe(200);
     expect(response.body).toEqual({ message: 'Added credit to customer 1 (stub)' });
   });
+
+  test('POST /api/customers returns 201 and stub message', async () => {
+    // Act
+    const response = await request(app)
+      .post('/api/customers')
+      .send({ name: 'Test', email: 'test@example.com' });
+    
+    // Assert
+    expect(response.status).toBe(201);
+    expect(response.body).toEqual({ message: 'Customer created' });
+  });
+
+  test('GET /api/customers/:id returns 200 and stub message', async () => {
+    // Act
+    const response = await request(app).get('/api/customers/1');
+
+    // Assert
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ message: 'Customer details for 1 (stub)' });
+  });
+
+  test('PUT /api/customers/:id returns 200 and stub message', async () => {
+    // Act
+    const response = await request(app)
+      .put('/api/customers/1')
+      .send({ name: 'Updated Name' });
+    
+    // Assert
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ message: 'Customer 1 updated (stub)' });
+  });
+
+  test('DELETE /api/customers/:id returns 200 and stub message', async () => {
+    // Act
+    const response = await request(app).delete('/api/customers/1');
+
+    // Assert
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ message: 'Customer 1 deleted (stub)' });
+  });
+
+  test('GET /api/customers returns 200 and stub message', async () => {
+    // Act
+    const response = await request(app).get('/api/customers');
+
+    // Assert
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ message: 'List of customers sorted by available credit (stub)' });
+  });
 });
