@@ -30,8 +30,16 @@ router.get('/customers/:id', async (req: Request, res: Response) => {
 
 router.put('/customers/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
-  // Por ahora devuelvo mensaje fijo, CustomerService.updateCustomer
-  res.status(200).json({ message: `Customer ${id} updated (stub)` });
+  const updateData = req.body;
+  let customer = (await customerService.getCustomer(id))!; 
+  // Actualizamos las propiedades según lo enviado (happy path)
+  customer.name = updateData.name || customer.name;
+  customer.email = updateData.email || customer.email;
+  if (updateData.availableCredit !== undefined) {
+    customer.availableCredit = updateData.availableCredit;
+  }
+  const updatedCustomer = await customerService.updateCustomer(customer);
+  res.status(200).json(updatedCustomer);
 });
 
 router.delete('/customers/:id', async (req: Request, res: Response) => {
