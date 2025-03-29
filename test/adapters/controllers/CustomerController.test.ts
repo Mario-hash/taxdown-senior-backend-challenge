@@ -18,7 +18,7 @@ describe('Customer API Endpoints', () => {
     expect(response.body).toEqual({ message: 'Added credit to customer 1 (stub)' });
   });
 
-  test('POST /api/customers returns 201 and stub message', async () => {
+  it('POST /api/customers returns 201 and stub message', async () => {
     // Act
     const response = await request(app)
       .post('/api/customers')
@@ -29,7 +29,7 @@ describe('Customer API Endpoints', () => {
     expect(response.body).toEqual({ message: 'Customer created (stub)' });
   });
 
-  test('GET /api/customers/:id returns 200 and stub message', async () => {
+  it('GET /api/customers/:id returns 200 and stub message', async () => {
     // Act
     const response = await request(app).get('/api/customers/1');
 
@@ -38,7 +38,7 @@ describe('Customer API Endpoints', () => {
     expect(response.body).toEqual({ message: 'Customer details for 1 (stub)' });
   });
 
-  test('PUT /api/customers/:id returns 200 and stub message', async () => {
+  it('PUT /api/customers/:id returns 200 and stub message', async () => {
     // Act
     const response = await request(app)
       .put('/api/customers/1')
@@ -49,7 +49,7 @@ describe('Customer API Endpoints', () => {
     expect(response.body).toEqual({ message: 'Customer 1 updated (stub)' });
   });
 
-  test('DELETE /api/customers/:id returns 200 and stub message', async () => {
+  it('DELETE /api/customers/:id returns 200 and stub message', async () => {
     // Act
     const response = await request(app).delete('/api/customers/1');
 
@@ -58,7 +58,7 @@ describe('Customer API Endpoints', () => {
     expect(response.body).toEqual({ message: 'Customer 1 deleted (stub)' });
   });
 
-  test('GET /api/customers returns 200 and stub message', async () => {
+  it('GET /api/customers returns 200 and stub message', async () => {
     // Act
     const response = await request(app).get('/api/customers');
 

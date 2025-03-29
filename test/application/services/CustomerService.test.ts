@@ -41,7 +41,7 @@ describe('CustomerService addCredit initial test', () => {
       .rejects.toThrow("Customer with id non-existent not found");
   });
 
-  test('createCustomer should create and return the customer', async () => {
+  it('createCustomer should create and return the customer', async () => {
     // Act
     const created = await customerService.createCustomer(testCustomer);
     
@@ -50,7 +50,7 @@ describe('CustomerService addCredit initial test', () => {
     expect(created).toEqual(testCustomer);
   });
 
-  test('getCustomer should return the customer if it exists', async () => {
+  it('getCustomer should return the customer if it exists', async () => {
     // Act
     const result = await customerService.getCustomer("1");
     
@@ -59,7 +59,7 @@ describe('CustomerService addCredit initial test', () => {
     expect(result).toEqual(testCustomer);
   });
 
-  test('updateCustomer should update and return the customer', async () => {
+  it('updateCustomer should update and return the customer', async () => {
     // Arrange
     testCustomer.name = "Updated Name";
     
@@ -71,7 +71,7 @@ describe('CustomerService addCredit initial test', () => {
     expect(updated.name).toBe("Updated Name");
   });
 
-  test('deleteCustomer should call repository.delete with the given id', async () => {
+  it('deleteCustomer should call repository.delete with the given id', async () => {
     // Act
     await customerService.deleteCustomer("1");
     
@@ -79,7 +79,7 @@ describe('CustomerService addCredit initial test', () => {
     expect(customerRepository.delete).toHaveBeenCalledWith("1");
   });
 
-  test('listCustomersSortedByCredit should return customers sorted descending by availableCredit', async () => {
+  it('listCustomersSortedByCredit should return customers sorted descending by availableCredit', async () => {
     // Arrange
     const customer2 = new Customer("2", "User Two", "two@example.com", 200);
     customerRepository.findAll.mockResolvedValueOnce([testCustomer, customer2]);
