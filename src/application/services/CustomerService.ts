@@ -12,4 +12,20 @@ export class CustomerService {
     customer.addCredit(amount);
     return this.customerRepository.update(customer);
   }
+
+  async createCustomer(customer: Customer): Promise<Customer> {
+    return this.customerRepository.create(customer);
+  }
+
+  async getCustomer(customerId: string): Promise<Customer | null> {
+    return this.customerRepository.findById(customerId);
+  }
+
+  async updateCustomer(customer: Customer): Promise<Customer> {
+    return this.customerRepository.update(customer);
+  }
+
+  async deleteCustomer(customerId: string): Promise<void> {
+    return this.customerRepository.delete(customerId);
+  }
 }
