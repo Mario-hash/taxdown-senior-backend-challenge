@@ -26,7 +26,7 @@ describe('Customer API Endpoints', () => {
     
     // Assert
     expect(response.status).toBe(201);
-    expect(response.body).toEqual({ message: 'Customer created' });
+    expect(response.body).toEqual({ message: 'Customer created (stub)' });
   });
 
   test('GET /api/customers/:id returns 200 and stub message', async () => {
