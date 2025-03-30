@@ -5,7 +5,7 @@ export class EmbebedCustomerRepository implements ICustomerRepository {
   private customers: Map<string, Customer> = new Map();
 
   async create(customer: Customer): Promise<Customer> {
-    this.customers.set(customer.id, customer);
+    this.customers.set(customer.id.getValue(), customer);
     return customer;
   }
 
@@ -14,7 +14,7 @@ export class EmbebedCustomerRepository implements ICustomerRepository {
   }
 
   async update(customer: Customer): Promise<Customer> {
-    this.customers.set(customer.id, customer);
+    this.customers.set(customer.id.getValue(), customer);
     return customer;
   }
 

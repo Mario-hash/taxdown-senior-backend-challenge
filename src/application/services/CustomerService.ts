@@ -31,6 +31,6 @@ export class CustomerService {
 
   async listCustomersSortedByCredit(): Promise<Customer[]> {
     const customers = await this.customerRepository.findAll();
-    return customers.sort((a, b) => b.availableCredit - a.availableCredit);
+    return customers.sort((a, b) => b.availableCredit.getValue() - a.availableCredit.getValue());
   }
 }

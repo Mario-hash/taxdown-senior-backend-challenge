@@ -1,14 +1,27 @@
+import { AvailableCredit } from "../vo/AvailableCredit";
+import { CustomerId } from "../vo/CustomerId";
+import { CustomerName } from "../vo/CustomerName";
 import { Email } from "../vo/Email";
 
 export class Customer {
-    constructor(
-      public id: string,
-      public name: string,
-      public email: Email,
-      public availableCredit: number = 0
-    ) {}
+  public id: CustomerId;
+  public name: CustomerName;
+  public email: Email;
+  public availableCredit: AvailableCredit;
 
-    addCredit(amount: number): void {
-        this.availableCredit += amount;
-    }
+  constructor(
+    id: CustomerId,
+    name: CustomerName,
+    email: Email,
+    availableCredit?: AvailableCredit
+  ) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+    this.availableCredit = availableCredit ?? new AvailableCredit(0);
   }
+
+  addCredit(amount: number): void {
+    this.availableCredit = this.availableCredit.add(amount);
+  }
+}

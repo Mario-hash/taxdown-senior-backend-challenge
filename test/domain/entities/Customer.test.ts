@@ -1,24 +1,42 @@
 import { Customer } from '../../../src/domain/entities/Customer';
 import { Email } from '../../../src/domain/vo/Email';
+import { CustomerId } from '../../../src/domain/vo/CustomerId';
+import { CustomerName } from '../../../src/domain/vo/CustomerName';
+import { AvailableCredit } from '../../../src/domain/vo/AvailableCredit';
 
 describe('Customer Entity', () => {
+  let tesId: CustomerId
+  let testName: CustomerName
+  let testCredit: AvailableCredit
   let testEmail: Email;
 
   beforeEach(() => {
+    // Arrange
+    tesId = new CustomerId('1');
+    testName = new CustomerName('Test');
+    testCredit = new AvailableCredit(100);
     testEmail = new Email('test@example.com');
   });
 
   it('should create a customer with provided attributes', () => {
-    const customer = new Customer('1', 'Test', testEmail, 100);
-    expect(customer.id).toBe('1');
-    expect(customer.name).toBe('Test');
-    expect(customer.email).toBe(testEmail);
-    expect(customer.availableCredit).toBe(100);
+    // Act
+    const customer = new Customer(tesId, testName, testEmail, testCredit);
+
+    // Assert
+    expect(customer.id.getValue()).toBe('1');
+    expect(customer.name.getValue()).toBe('Test');
+    expect(customer.email.getValue()).toBe('test@example.com');
+    expect(customer.availableCredit.getValue()).toBe(100);
   });
 
   it('should add credit to a customer', () => {
-    const customer = new Customer('1', 'Test', testEmail , 100);
+    // Arrange
+    const customer = new Customer(tesId, testName, testEmail, testCredit);
+
+    // Act
     customer.addCredit(50);
-    expect(customer.availableCredit).toBe(150);
+
+    // Assert
+    expect(customer.availableCredit.getValue()).toBe(150);
   });
 });
