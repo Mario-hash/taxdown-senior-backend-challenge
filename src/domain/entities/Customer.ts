@@ -21,7 +21,7 @@ export class Customer {
     this.availableCredit = availableCredit ?? new AvailableCredit(0);
   }
 
-  addCredit(amount: number): void {
-    this.availableCredit = this.availableCredit.add(amount);
+  addCredit(amount: AvailableCredit): void {
+    this.availableCredit = this.availableCredit.add(amount.getValue());
   }
 }

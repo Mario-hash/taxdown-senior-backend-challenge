@@ -20,7 +20,7 @@ describe('Customer API Integration Tests', () => {
       // Act
       const res = await request(app).post('/api/customers').send(newCustomer);
 
-      // Assert: Verificamos que se retorne status 201 y el objeto creado
+      // Assert
       expect(res.status).toBe(201);
       expect(res.body).toMatchObject({
         id: "1",

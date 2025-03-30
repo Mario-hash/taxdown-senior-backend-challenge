@@ -34,7 +34,7 @@ describe('Customer Entity', () => {
     const customer = new Customer(tesId, testName, testEmail, testCredit);
 
     // Act
-    customer.addCredit(50);
+    customer.addCredit(new AvailableCredit(50));
 
     // Assert
     expect(customer.availableCredit.getValue()).toBe(150);

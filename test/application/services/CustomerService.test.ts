@@ -37,11 +37,11 @@ describe('CustomerService addCredit initial test', () => {
 
   it('should add credit to a customer', async () => {
     // Act
-    const updatedCustomer = await customerService.addCredit("1", 50);
+    const updatedCustomer = await customerService.addCredit(tesId, new AvailableCredit(50));
     
     // Assert
     expect(updatedCustomer.availableCredit.getValue()).toBe(150);
-    expect(customerRepository.findById).toHaveBeenCalledWith("1");
+    expect(customerRepository.findById).toHaveBeenCalledWith(tesId);
     expect(customerRepository.update).toHaveBeenCalledWith(updatedCustomer);
     expect(customerRepository.update).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -57,8 +57,8 @@ describe('CustomerService addCredit initial test', () => {
     customerRepository.findById.mockResolvedValueOnce(null);
     
     // Assert
-    await expect(customerService.addCredit("non-existent", 50))
-      .rejects.toThrow("Customer with id non-existent not found");
+    await expect(customerService.addCredit(tesId, testCredit))
+      .rejects.toThrow("Customer with id " + tesId.getValue() + " not found");
   });
 
   it('createCustomer should create and return the customer', async () => {
@@ -72,10 +72,10 @@ describe('CustomerService addCredit initial test', () => {
 
   it('getCustomer should return the customer if it exists', async () => {
     // Act
-    const result = await customerService.getCustomer("1");
+    const result = await customerService.getCustomer(tesId);
     
     // Assert
-    expect(customerRepository.findById).toHaveBeenCalledWith("1");
+    expect(customerRepository.findById).toHaveBeenCalledWith(tesId);
     expect(result).toEqual(testCustomer);
   });
 
@@ -93,10 +93,10 @@ describe('CustomerService addCredit initial test', () => {
 
   it('deleteCustomer should call repository.delete with the given id', async () => {
     // Act
-    await customerService.deleteCustomer("1");
+    await customerService.deleteCustomer(tesId);
     
     // Assert
-    expect(customerRepository.delete).toHaveBeenCalledWith("1");
+    expect(customerRepository.delete).toHaveBeenCalledWith(tesId);
   });
 
   it('listCustomersSortedByCredit should return customers sorted descending by availableCredit', async () => {

@@ -2,6 +2,10 @@ import { Router, Request, Response } from 'express';
 import { Customer } from '../../domain/entities/Customer';
 import { CustomerService } from '../../application/services/CustomerService';
 import { EmbebedCustomerRepository } from '../persistence/EmbebedCustomerRepositoryImpl';
+import { CustomerDTO } from '../../application/dto/CustomerDTO';
+import { CustomerMapper } from '../../application/mapper/CustomerMapper';
+import { CustomerId } from '../../domain/vo/CustomerId';
+import { AvailableCredit } from '../../domain/vo/AvailableCredit';
 
 const router = Router();
 
@@ -11,45 +15,58 @@ const customerService = new CustomerService(repository);
 router.post('/customers/:id/credit',async (req: Request, res: Response) => {
   const { id } = req.params;
   const { amount } = req.body;
-  const updatedCustomer = await customerService.addCredit(id, amount);
-  res.status(200).json(updatedCustomer);
+  const updatedCustomer = await customerService.addCredit(new CustomerId(id), new AvailableCredit(amount));
+  const result = CustomerMapper.toDTO(updatedCustomer);
+  res.status(200).json(result);
 });
 
-router.post('/customers', async (req: Request, res: Response) => {
-  const { id, name, email, availableCredit } = req.body;
-  const customer = new Customer(id, name, email, availableCredit ?? 0);
-  const createdCustomer = await customerService.createCustomer(customer);
-  res.status(201).json(createdCustomer);
+router.post('/customers', async (req: Request, res: Response): Promise<any> => {
+  const dto: CustomerDTO = req.body;
+  const customer = CustomerMapper.toDomain(dto);
+  const created = await customerService.createCustomer(customer);
+  const result = CustomerMapper.toDTO(created);
+  return res.status(201).json(result);
 });
+
 
 router.get('/customers/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
-  const customer = await customerService.getCustomer(id);
-  res.status(200).json(customer);
+  const customer = await customerService.getCustomer(new CustomerId(id));
+  if (customer) {
+    const dto = CustomerMapper.toDTO(customer);
+    res.status(200).json(dto);
+  }
 });
 
 router.put('/customers/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
-  const updateData = req.body;
-  let customer = (await customerService.getCustomer(id))!; 
-  // Actualizamos las propiedades según lo enviado (happy path)
-  customer.name = updateData.name || customer.name;
-  customer.email = updateData.email || customer.email;
-  if (updateData.availableCredit !== undefined) {
-    customer.availableCredit = updateData.availableCredit;
+  const updateData: Partial<CustomerDTO> = req.body;
+  const existing = await customerService.getCustomer(new CustomerId(id));
+  if (existing){
+    const updatedDTO: CustomerDTO = {
+      id,
+      name: updateData.name ?? existing.name.getValue(),
+      email: updateData.email ?? existing.email.getValue(),
+      availableCredit: updateData.availableCredit !== undefined
+        ? updateData.availableCredit
+        : existing.availableCredit.getValue(),
+    };
+    const updatedEntity = CustomerMapper.toDomain(updatedDTO);
+    const updatedCustomer = await customerService.updateCustomer(updatedEntity);
+    res.status(200).json(CustomerMapper.toDTO(updatedCustomer));
   }
-  const updatedCustomer = await customerService.updateCustomer(customer);
-  res.status(200).json(updatedCustomer);
+
 });
 
 router.delete('/customers/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
-  await customerService.deleteCustomer(id);
+  await customerService.deleteCustomer(new CustomerId(id));
   res.status(200).json({ message: `Customer ${id} deleted` });
 });
 
 router.get('/customers', async (req: Request, res: Response) => {
   const customers = await customerService.listCustomersSortedByCredit();
-  res.status(200).json(customers);
+  const dtos = customers.map(customer => CustomerMapper.toDTO(customer));
+  res.status(200).json(dtos);
 });
 export default router;

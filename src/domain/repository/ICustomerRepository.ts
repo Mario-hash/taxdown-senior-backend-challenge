@@ -1,9 +1,10 @@
 import { Customer } from '../entities/Customer';
+import { CustomerId } from '../vo/CustomerId';
 
 export interface ICustomerRepository {
   create(customer: Customer): Promise<Customer>;
   update(customer: Customer): Promise<Customer>;
-  delete(customerId: string): Promise<void>;
-  findById(customerId: string): Promise<Customer | null>;
+  delete(customerId: CustomerId): Promise<void>;
+  findById(customerId: CustomerId): Promise<Customer | null>;
   findAll(): Promise<Customer[]>;
 }

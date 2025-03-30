@@ -1,5 +1,6 @@
 import { ICustomerRepository } from '../../domain/repository/ICustomerRepository';
 import { Customer } from '../../domain/entities/Customer';
+import { CustomerId } from '../../domain/vo/CustomerId';
 
 export class EmbebedCustomerRepository implements ICustomerRepository {
   private customers: Map<string, Customer> = new Map();
@@ -9,8 +10,8 @@ export class EmbebedCustomerRepository implements ICustomerRepository {
     return customer;
   }
 
-  async findById(customerId: string): Promise<Customer | null> {
-    return this.customers.get(customerId) || null;
+  async findById(customerId: CustomerId): Promise<Customer | null> {
+    return this.customers.get(customerId.getValue()) || null;
   }
 
   async update(customer: Customer): Promise<Customer> {
@@ -18,8 +19,8 @@ export class EmbebedCustomerRepository implements ICustomerRepository {
     return customer;
   }
 
-  async delete(customerId: string): Promise<void> {
-    this.customers.delete(customerId);
+  async delete(customerId: CustomerId): Promise<void> {
+    this.customers.delete(customerId.getValue());
   }
 
   async findAll(): Promise<Customer[]> {

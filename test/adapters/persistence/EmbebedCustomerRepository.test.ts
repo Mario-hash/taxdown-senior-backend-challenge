@@ -27,7 +27,7 @@ describe('MemoryCustomerRepository', () => {
     // Arrange
     await repo.create(testCustomer);
     //Act
-    const customer = await repo.findById("1");
+    const customer = await repo.findById(tesId);
     //Assert
     expect(customer).not.toBeNull();
     expect(customer?.id).toBe(tesId);
@@ -39,7 +39,7 @@ describe('MemoryCustomerRepository', () => {
     //Act
     testCustomer.availableCredit = new AvailableCredit(150);
     await repo.update(testCustomer);
-    const customer = await repo.findById("1");
+    const customer = await repo.findById(tesId);
     //Assert
     expect(customer?.availableCredit.getValue()).toBe(150);
   });
@@ -48,8 +48,8 @@ describe('MemoryCustomerRepository', () => {
     // Arrange
     await repo.create(testCustomer);
     //Act
-    await repo.delete("1");
-    const customer = await repo.findById("1");
+    await repo.delete(tesId);
+    const customer = await repo.findById(tesId);
     //Assert
     expect(customer).toBeNull();
   });
