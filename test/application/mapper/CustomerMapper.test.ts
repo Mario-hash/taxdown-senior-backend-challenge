@@ -1,5 +1,3 @@
-// test/application/mapper/CustomerMapper.test.ts
-
 import { CustomerMapper } from '../../../src/application/mapper/CustomerMapper';
 import { CustomerDTO } from '../../../src/application/dto/CustomerDTO';
 import { Customer } from '../../../src/domain/entities/Customer';
