@@ -2,6 +2,7 @@ import { CustomerRepository } from '../../domain/ports/CustomerRepository';
 import { Customer } from '../../domain/entities/Customer';
 import { CustomerId } from '../../domain/vo/CustomerId';
 import { AvailableCredit } from '../../domain/vo/AvailableCredit';
+import { NotFoundError } from '../../domain/exceptions/NotFoundError';
 
 export class CustomerService {
   constructor(private customerRepository: CustomerRepository) {}
@@ -9,7 +10,7 @@ export class CustomerService {
   async addCredit(customerId: CustomerId, amount: AvailableCredit): Promise<Customer> {
     const customer = await this.customerRepository.findById(customerId);
     if (!customer) {
-      throw new Error(`Customer with id ${customerId.getValue()} not found`);
+      throw new NotFoundError('Customer', customerId.getValue());
     }
     customer.addCredit(amount);
     return this.customerRepository.update(customer);

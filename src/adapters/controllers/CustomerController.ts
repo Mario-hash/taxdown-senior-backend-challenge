@@ -6,19 +6,26 @@ import { CustomerDTO } from '../../application/dto/CustomerDTO';
 import { CustomerMapper } from '../../application/mapper/CustomerMapper';
 import { CustomerId } from '../../domain/vo/CustomerId';
 import { AvailableCredit } from '../../domain/vo/AvailableCredit';
+import { AsyncHandler } from '../../utils/AsyncHandler';
 
 const router = Router();
 
 const repository = new InMemoryCustomerRepository();
 const customerService = new CustomerService(repository);
 
-router.post('/customers/:id/credit',async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { amount } = req.body;
-  const updatedCustomer = await customerService.addCredit(CustomerId.create(id), AvailableCredit.create(amount));
-  const result = CustomerMapper.toDTO(updatedCustomer);
-  res.status(200).json(result);
-});
+router.post(
+  '/customers/:id/credit',
+  AsyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { amount } = req.body;
+    const updatedCustomer = await customerService.addCredit(
+      CustomerId.create(id),
+      AvailableCredit.create(amount)
+    );
+    const result = CustomerMapper.toDTO(updatedCustomer);
+    res.status(200).json(result);
+  })
+);
 
 router.post('/customers', async (req: Request, res: Response): Promise<any> => {
   const dto: CustomerDTO = req.body;
