@@ -1,4 +1,4 @@
-import { Email } from '../../../src/domain/vo/Email';
+import { Email } from '../../../src/domain/vo/CustomerEmail';
 
 describe('Email Value Object', () => {
   it('should create a valid Email instance with a correct email string', () => {

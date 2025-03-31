@@ -1,7 +1,7 @@
 import { Customer } from "../../../src/domain/entities/Customer";
 import { CustomerService } from "../../../src/application/services/CustomerService";
 import { ICustomerRepository } from "../../../src/domain/repository/ICustomerRepository";
-import { Email } from "../../../src/domain/vo/Email";
+import { Email } from "../../../src/domain/vo/CustomerEmail";
 import { CustomerId } from "../../../src/domain/vo/CustomerId";
 import { CustomerName } from "../../../src/domain/vo/CustomerName";
 import { AvailableCredit } from "../../../src/domain/vo/AvailableCredit";

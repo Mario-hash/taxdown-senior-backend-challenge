@@ -1,7 +1,7 @@
 import { AvailableCredit } from "../vo/AvailableCredit";
 import { CustomerId } from "../vo/CustomerId";
 import { CustomerName } from "../vo/CustomerName";
-import { Email } from "../vo/Email";
+import { Email } from "../vo/CustomerEmail";
 
 export class Customer {
   public id: CustomerId;
