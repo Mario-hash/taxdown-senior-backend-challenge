@@ -5,7 +5,7 @@ describe('AvailableCredit Value Object', () => {
     // Arrange
     const creditValue = 100;
     // Act
-    const availableCredit = new AvailableCredit(creditValue);
+    const availableCredit = AvailableCredit.create(creditValue);
     // Assert
     expect(availableCredit.getValue()).toBe(creditValue);
   });
@@ -14,12 +14,12 @@ describe('AvailableCredit Value Object', () => {
     // Arrange
     const negativeCredit = -10;
     // Act & Assert
-    expect(() => new AvailableCredit(negativeCredit)).toThrow('AvailableCredit cannot be negative');
+    expect(() => AvailableCredit.create(negativeCredit)).toThrow('AvailableCredit cannot be negative');
   });
 
   it('should add credit correctly', () => {
     // Arrange
-    const initialCredit = new AvailableCredit(100);
+    const initialCredit = AvailableCredit.create(100);
     // Act
     const newCredit = initialCredit.add(50);
     // Assert
@@ -30,6 +30,6 @@ describe('AvailableCredit Value Object', () => {
     // Arrange
     const invalidCredit: any = "abc";
     // Act & Assert
-    expect(() => new AvailableCredit(invalidCredit)).toThrow("AvailableCredit must be a number");
+    expect(() => AvailableCredit.create(invalidCredit)).toThrow("AvailableCredit must be a number");
   });
 });
