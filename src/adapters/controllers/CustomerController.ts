@@ -15,7 +15,7 @@ const customerService = new CustomerService(repository);
 router.post('/customers/:id/credit',async (req: Request, res: Response) => {
   const { id } = req.params;
   const { amount } = req.body;
-  const updatedCustomer = await customerService.addCredit(new CustomerId(id), AvailableCredit.create(amount));
+  const updatedCustomer = await customerService.addCredit(CustomerId.create(id), AvailableCredit.create(amount));
   const result = CustomerMapper.toDTO(updatedCustomer);
   res.status(200).json(result);
 });
@@ -31,7 +31,7 @@ router.post('/customers', async (req: Request, res: Response): Promise<any> => {
 
 router.get('/customers/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
-  const customer = await customerService.getCustomer(new CustomerId(id));
+  const customer = await customerService.getCustomer(CustomerId.create(id));
   if (customer) {
     const dto = CustomerMapper.toDTO(customer);
     res.status(200).json(dto);
@@ -41,7 +41,7 @@ router.get('/customers/:id', async (req: Request, res: Response) => {
 router.put('/customers/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
   const updateData: Partial<CustomerDTO> = req.body;
-  const existing = await customerService.getCustomer(new CustomerId(id));
+  const existing = await customerService.getCustomer(CustomerId.create(id));
   if (existing){
     const updatedDTO: CustomerDTO = {
       id,
@@ -60,7 +60,7 @@ router.put('/customers/:id', async (req: Request, res: Response) => {
 
 router.delete('/customers/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
-  await customerService.deleteCustomer(new CustomerId(id));
+  await customerService.deleteCustomer(CustomerId.create(id));
   res.status(200).json({ message: `Customer ${id} deleted` });
 });
 

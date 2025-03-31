@@ -8,9 +8,9 @@ import { AvailableCredit } from '../../domain/vo/AvailableCredit';
 export class CustomerMapper {
   static toDomain(dto: CustomerDTO): Customer {
     return new Customer(
-      new CustomerId(dto.id),
-      new CustomerName(dto.name),
-      new Email(dto.email),
+      CustomerId.create(dto.id),
+      CustomerName.create(dto.name),
+      Email.create(dto.email),
       AvailableCredit.create(dto.availableCredit ?? 0)
     );
   }

@@ -12,10 +12,10 @@ describe('Customer Entity', () => {
 
   beforeEach(() => {
     // Arrange
-    tesId = new CustomerId('1');
-    testName = new CustomerName('Test');
+    tesId = CustomerId.create('1');
+    testName = CustomerName.create('Test');
     testCredit = AvailableCredit.create(100);
-    testEmail = new Email('test@example.com');
+    testEmail = Email.create('test@example.com');
   });
 
   it('should create a customer with provided attributes', () => {

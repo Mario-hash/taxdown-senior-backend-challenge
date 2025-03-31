@@ -16,10 +16,10 @@ describe('MemoryCustomerRepository', () => {
 
   beforeEach(() => {
     repo = new EmbebedCustomerRepository();
-    tesId = new CustomerId('1');
-    testName = new CustomerName('Test');
+    tesId = CustomerId.create('1');
+    testName = CustomerName.create('Test');
     testCredit = AvailableCredit.create(100);
-    testEmail = new Email('test@example.com');
+    testEmail = Email.create('test@example.com');
     testCustomer = new Customer(tesId, testName, testEmail, testCredit);
   });
 

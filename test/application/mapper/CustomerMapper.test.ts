@@ -33,9 +33,9 @@ describe('CustomerMapper', () => {
   it('should map Customer entity to CustomerDTO', () => {
     // Arrange
     const customer = new Customer(
-      new CustomerId('1'),
-      new CustomerName('Test'),
-      new Email('test@example.com'),
+      CustomerId.create('1'),
+      CustomerName.create('Test'),
+      Email.create('test@example.com'),
       AvailableCredit.create(100)
     );
 

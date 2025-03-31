@@ -17,10 +17,10 @@ describe('CustomerService addCredit initial test', () => {
   let testEmail: Email;
 
   beforeEach(() => {
-    tesId = new CustomerId('1');
-    testName = new CustomerName('Test');
+    tesId = CustomerId.create('1');
+    testName = CustomerName.create('Test');
     testCredit = AvailableCredit.create(100);
-    testEmail = new Email('test@example.com');
+    testEmail = Email.create('test@example.com');
     testCustomer = new Customer(tesId, testName, testEmail, testCredit);
 
     // Objeto simulado que cumple con ICustomerRepository
@@ -81,7 +81,7 @@ describe('CustomerService addCredit initial test', () => {
 
   it('updateCustomer should update and return the customer', async () => {
     // Arrange
-    testCustomer.name = new CustomerName("Updated Name");
+    testCustomer.name = CustomerName.create("Updated Name");
     
     // Act
     const updated = await customerService.updateCustomer(testCustomer);
@@ -101,7 +101,7 @@ describe('CustomerService addCredit initial test', () => {
 
   it('listCustomersSortedByCredit should return customers sorted descending by availableCredit', async () => {
     // Arrange
-    const customer2 = new Customer(new CustomerId('2'), new CustomerName("User Two"), new Email("two@example.com"), AvailableCredit.create(200));
+    const customer2 = new Customer(CustomerId.create('2'), CustomerName.create("User Two"), Email.create("two@example.com"), AvailableCredit.create(200));
     customerRepository.findAll.mockResolvedValueOnce([testCustomer, customer2]);
     
     // Act
