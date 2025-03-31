@@ -25,4 +25,11 @@ describe('AvailableCredit Value Object', () => {
     // Assert
     expect(newCredit.getValue()).toBe(150);
   });
+
+  it('should throw an error if provided value is not a number', () => {
+    // Arrange
+    const invalidCredit: any = "abc";
+    // Act & Assert
+    expect(() => new AvailableCredit(invalidCredit)).toThrow("AvailableCredit must be a number");
+  });
 });
