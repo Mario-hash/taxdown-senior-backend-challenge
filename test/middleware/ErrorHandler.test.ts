@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import request from 'supertest';
-import { errorHandler } from '../../src/middleware/errorHandler';
+import { ErrorHandler } from '../../src/middleware/ErrorHandler';
 import { DomainError } from '../../src/domain/exceptions/DomainError';
 import { NotFoundError } from '../../src/domain/exceptions/NotFoundError';
 
@@ -26,7 +26,7 @@ describe('ErrorHandler Middleware', () => {
       next(new Error('Generic error'));
     });
 
-    app.use(errorHandler);
+    app.use(ErrorHandler);
   });
 
   it('should return 404 and proper error message for NotFoundError', async () => {
