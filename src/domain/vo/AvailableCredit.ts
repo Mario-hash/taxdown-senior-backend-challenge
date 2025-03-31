@@ -2,6 +2,9 @@ export class AvailableCredit {
     private readonly value: number;
   
     constructor(value: number) {
+      if (typeof value !== 'number' || isNaN(value)) {
+        throw new Error('AvailableCredit must be a number');
+      }
       if (value < 0) {
         throw new Error('AvailableCredit cannot be negative');
       }
