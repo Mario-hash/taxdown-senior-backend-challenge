@@ -1,9 +1,9 @@
-import { InMemoryCustomerRepository } from '../../../src/adapters/persistence/repositories/InMemoryCustomerRepository';
-import { Customer } from '../../../src/domain/entities/Customer';
-import { AvailableCredit } from '../../../src/domain/vo/AvailableCredit';
-import { CustomerId } from '../../../src/domain/vo/CustomerId';
-import { CustomerName } from '../../../src/domain/vo/CustomerName';
-import { CustomerEmail } from '../../../src/domain/vo/CustomerEmail';
+import { InMemoryCustomerRepository } from '../../../../src/adapters/persistence/repositories/InMemoryCustomerRepository';
+import { Customer } from '../../../../src/domain/entities/Customer';
+import { AvailableCredit } from '../../../../src/domain/vo/AvailableCredit';
+import { CustomerId } from '../../../../src/domain/vo/CustomerId';
+import { CustomerName } from '../../../../src/domain/vo/CustomerName';
+import { CustomerEmail } from '../../../../src/domain/vo/CustomerEmail';
 
 describe('MemoryCustomerRepository', () => {
   let repo: InMemoryCustomerRepository;
