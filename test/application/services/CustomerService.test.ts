@@ -1,14 +1,27 @@
 import { Customer } from "../../../src/domain/entities/Customer";
 import { CustomerService } from "../../../src/application/services/CustomerService";
-import { ICustomerRepository } from "../../../src/domain/repository/ICustomerRepository";
+import { CustomerRepository } from "../../../src/domain/ports/CustomerRepository";
+import { CustomerEmail } from "../../../src/domain/vo/CustomerEmail";
+import { CustomerId } from "../../../src/domain/vo/CustomerId";
+import { CustomerName } from "../../../src/domain/vo/CustomerName";
+import { AvailableCredit } from "../../../src/domain/vo/AvailableCredit";
 
 describe('CustomerService addCredit initial test', () => {
-  let customerRepository: jest.Mocked<ICustomerRepository>;
+  let customerRepository: jest.Mocked<CustomerRepository>;
   let customerService: CustomerService;
   let testCustomer: Customer;
 
+  let tesId: CustomerId
+  let testName: CustomerName
+  let testCredit: AvailableCredit
+  let testEmail: CustomerEmail;
+
   beforeEach(() => {
-    testCustomer = new Customer("1", "Test User", "test@example.com", 100);
+    tesId = CustomerId.create('1');
+    testName = CustomerName.create('Test');
+    testCredit = AvailableCredit.create(100);
+    testEmail = CustomerEmail.create('test@example.com');
+    testCustomer = new Customer(tesId, testName, testEmail, testCredit);
 
     // Objeto simulado que cumple con ICustomerRepository
     customerRepository = {
@@ -24,21 +37,28 @@ describe('CustomerService addCredit initial test', () => {
 
   it('should add credit to a customer', async () => {
     // Act
-    const updatedCustomer = await customerService.addCredit("1", 50);
+    const updatedCustomer = await customerService.addCredit(tesId, AvailableCredit.create(50));
     
     // Assert
-    expect(updatedCustomer.availableCredit).toBe(150);
-    expect(customerRepository.findById).toHaveBeenCalledWith("1");
-    expect(customerRepository.update).toHaveBeenCalledWith(expect.objectContaining({ availableCredit: 150 }));
+    expect(updatedCustomer.availableCredit.getValue()).toBe(150);
+    expect(customerRepository.findById).toHaveBeenCalledWith(tesId);
+    expect(customerRepository.update).toHaveBeenCalledWith(updatedCustomer);
+    expect(customerRepository.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        availableCredit: expect.objectContaining({
+          value: 150
+        })
+      })
+    );
   });
 
   it('should throw an error if customer is not found', async () => {
-    // Forzamos a que findById devuelva null
+    // Act
     customerRepository.findById.mockResolvedValueOnce(null);
     
     // Assert
-    await expect(customerService.addCredit("non-existent", 50))
-      .rejects.toThrow("Customer with id non-existent not found");
+    await expect(customerService.addCredit(tesId, testCredit))
+      .rejects.toThrow("Customer with id " + tesId.getValue() + " not found");
   });
 
   it('createCustomer should create and return the customer', async () => {
@@ -52,36 +72,36 @@ describe('CustomerService addCredit initial test', () => {
 
   it('getCustomer should return the customer if it exists', async () => {
     // Act
-    const result = await customerService.getCustomer("1");
+    const result = await customerService.getCustomer(tesId);
     
     // Assert
-    expect(customerRepository.findById).toHaveBeenCalledWith("1");
+    expect(customerRepository.findById).toHaveBeenCalledWith(tesId);
     expect(result).toEqual(testCustomer);
   });
 
   it('updateCustomer should update and return the customer', async () => {
     // Arrange
-    testCustomer.name = "Updated Name";
+    testCustomer.name = CustomerName.create("Updated Name");
     
     // Act
     const updated = await customerService.updateCustomer(testCustomer);
     
     // Assert
     expect(customerRepository.update).toHaveBeenCalledWith(testCustomer);
-    expect(updated.name).toBe("Updated Name");
+    expect(updated.name.getValue()).toBe("Updated Name");
   });
 
   it('deleteCustomer should call repository.delete with the given id', async () => {
     // Act
-    await customerService.deleteCustomer("1");
+    await customerService.deleteCustomer(tesId);
     
     // Assert
-    expect(customerRepository.delete).toHaveBeenCalledWith("1");
+    expect(customerRepository.delete).toHaveBeenCalledWith(tesId);
   });
 
   it('listCustomersSortedByCredit should return customers sorted descending by availableCredit', async () => {
     // Arrange
-    const customer2 = new Customer("2", "User Two", "two@example.com", 200);
+    const customer2 = new Customer(CustomerId.create('2'), CustomerName.create("User Two"), CustomerEmail.create("two@example.com"), AvailableCredit.create(200));
     customerRepository.findAll.mockResolvedValueOnce([testCustomer, customer2]);
     
     // Act
@@ -89,7 +109,7 @@ describe('CustomerService addCredit initial test', () => {
     
     // Assert
     expect(customerRepository.findAll).toHaveBeenCalled();
-    expect(sorted[0].id).toBe("2");
-    expect(sorted[1].id).toBe("1");
+    expect(sorted[0].id.getValue()).toBe("2");
+    expect(sorted[1].id.getValue()).toBe("1");
   });
 });
