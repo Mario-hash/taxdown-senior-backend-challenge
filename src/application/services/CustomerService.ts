@@ -1,10 +1,10 @@
-import { ICustomerRepository } from '../../domain/repository/ICustomerRepository';
+import { CustomerRepository } from '../../domain/ports/CustomerRepository';
 import { Customer } from '../../domain/entities/Customer';
 import { CustomerId } from '../../domain/vo/CustomerId';
 import { AvailableCredit } from '../../domain/vo/AvailableCredit';
 
 export class CustomerService {
-  constructor(private customerRepository: ICustomerRepository) {}
+  constructor(private customerRepository: CustomerRepository) {}
 
   async addCredit(customerId: CustomerId, amount: AvailableCredit): Promise<Customer> {
     const customer = await this.customerRepository.findById(customerId);

@@ -1,8 +1,8 @@
-import { ICustomerRepository } from '../../domain/repository/ICustomerRepository';
-import { Customer } from '../../domain/entities/Customer';
-import { CustomerId } from '../../domain/vo/CustomerId';
+import { CustomerRepository } from '../../../domain/ports/CustomerRepository';
+import { Customer } from '../../../domain/entities/Customer';
+import { CustomerId } from '../../../domain/vo/CustomerId';
 
-export class EmbebedCustomerRepository implements ICustomerRepository {
+export class InMemoryCustomerRepository implements CustomerRepository {
   private customers: Map<string, Customer> = new Map();
 
   async create(customer: Customer): Promise<Customer> {

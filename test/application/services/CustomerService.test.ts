@@ -1,13 +1,13 @@
 import { Customer } from "../../../src/domain/entities/Customer";
 import { CustomerService } from "../../../src/application/services/CustomerService";
-import { ICustomerRepository } from "../../../src/domain/repository/ICustomerRepository";
+import { CustomerRepository } from "../../../src/domain/ports/CustomerRepository";
 import { CustomerEmail } from "../../../src/domain/vo/CustomerEmail";
 import { CustomerId } from "../../../src/domain/vo/CustomerId";
 import { CustomerName } from "../../../src/domain/vo/CustomerName";
 import { AvailableCredit } from "../../../src/domain/vo/AvailableCredit";
 
 describe('CustomerService addCredit initial test', () => {
-  let customerRepository: jest.Mocked<ICustomerRepository>;
+  let customerRepository: jest.Mocked<CustomerRepository>;
   let customerService: CustomerService;
   let testCustomer: Customer;
 

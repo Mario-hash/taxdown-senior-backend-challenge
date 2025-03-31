@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { Customer } from '../../domain/entities/Customer';
 import { CustomerService } from '../../application/services/CustomerService';
-import { EmbebedCustomerRepository } from '../persistence/EmbebedCustomerRepositoryImpl';
+import { InMemoryCustomerRepository } from '../persistence/repositories/InMemoryCustomerRepository';
 import { CustomerDTO } from '../../application/dto/CustomerDTO';
 import { CustomerMapper } from '../../application/mapper/CustomerMapper';
 import { CustomerId } from '../../domain/vo/CustomerId';
@@ -9,7 +9,7 @@ import { AvailableCredit } from '../../domain/vo/AvailableCredit';
 
 const router = Router();
 
-const repository = new EmbebedCustomerRepository();
+const repository = new InMemoryCustomerRepository();
 const customerService = new CustomerService(repository);
 
 router.post('/customers/:id/credit',async (req: Request, res: Response) => {

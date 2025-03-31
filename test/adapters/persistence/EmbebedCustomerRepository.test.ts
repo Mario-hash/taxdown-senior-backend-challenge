@@ -1,4 +1,4 @@
-import { EmbebedCustomerRepository } from '../../../src/adapters/persistence/EmbebedCustomerRepositoryImpl';
+import { InMemoryCustomerRepository } from '../../../src/adapters/persistence/repositories/InMemoryCustomerRepository';
 import { Customer } from '../../../src/domain/entities/Customer';
 import { AvailableCredit } from '../../../src/domain/vo/AvailableCredit';
 import { CustomerId } from '../../../src/domain/vo/CustomerId';
@@ -6,7 +6,7 @@ import { CustomerName } from '../../../src/domain/vo/CustomerName';
 import { CustomerEmail } from '../../../src/domain/vo/CustomerEmail';
 
 describe('MemoryCustomerRepository', () => {
-  let repo: EmbebedCustomerRepository;
+  let repo: InMemoryCustomerRepository;
   let testCustomer: Customer;
 
   let tesId: CustomerId
@@ -15,7 +15,7 @@ describe('MemoryCustomerRepository', () => {
   let testEmail: CustomerEmail;
 
   beforeEach(() => {
-    repo = new EmbebedCustomerRepository();
+    repo = new InMemoryCustomerRepository();
     tesId = CustomerId.create('1');
     testName = CustomerName.create('Test');
     testCredit = AvailableCredit.create(100);
