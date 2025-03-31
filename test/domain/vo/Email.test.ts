@@ -6,7 +6,7 @@ describe('Email Value Object', () => {
     const validEmail = 'test@example.com';
     
     // Act
-    const emailObj = new Email(validEmail);
+    const emailObj = Email.create(validEmail);
     
     // Assert
     expect(emailObj.getValue()).toBe(validEmail);
@@ -17,7 +17,7 @@ describe('Email Value Object', () => {
     const invalidEmail = 'invalid-email';
     
     // Act & Assert
-    expect(() => new Email(invalidEmail)).toThrow('Invalid email format');
+    expect(() => Email.create(invalidEmail)).toThrow('Invalid email format');
   });
 
   it('should throw an error for an empty email string', () => {
@@ -25,6 +25,6 @@ describe('Email Value Object', () => {
     const emptyEmail = '';
     
     // Act & Assert
-    expect(() => new Email(emptyEmail)).toThrow('Invalid email format');
+    expect(() => Email.create(emptyEmail)).toThrow('Invalid email format');
   });
 });

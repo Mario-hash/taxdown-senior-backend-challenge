@@ -5,7 +5,7 @@ describe('CustomerId Value Object', () => {
     // Arrange
     const validId = '1234';
     // Act
-    const customerId = new CustomerId(validId);
+    const customerId = CustomerId.create(validId);
     // Assert
     expect(customerId.getValue()).toBe(validId);
   });
@@ -14,6 +14,6 @@ describe('CustomerId Value Object', () => {
     // Arrange
     const invalidId = '';
     // Act & Assert
-    expect(() => new CustomerId(invalidId)).toThrow('Invalid CustomerId');
+    expect(() => CustomerId.create(invalidId)).toThrow('Invalid CustomerId');
   });
 });

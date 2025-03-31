@@ -5,7 +5,7 @@ describe('CustomerName Value Object', () => {
     // Arrange
     const validName = 'Test Name';
     // Act
-    const customerName = new CustomerName(validName);
+    const customerName = CustomerName.create(validName);
     // Assert
     expect(customerName.getValue()).toBe(validName.trim());
   });
@@ -14,21 +14,21 @@ describe('CustomerName Value Object', () => {
     // Arrange
     const invalidName = '   ';
     // Act & Assert
-    expect(() => new CustomerName(invalidName)).toThrow('Invalid CustomerName');
+    expect(() => CustomerName.create(invalidName)).toThrow('Invalid CustomerName');
   });
 
   it('should throw an error for a name that exceeds the maximum length', () => {
-    // Arrange:
-    const longName = 'A'.repeat(51); // 51 caracteres
+    // Arrange
+    const longName = 'A'.repeat(51);
     // Act & Assert
-    expect(() => new CustomerName(longName)).toThrow('Invalid CustomerName');
+    expect(() => CustomerName.create(longName)).toThrow('Invalid CustomerName');
   });
 
   it('should create a valid CustomerName if the length is exactly at the maximum allowed', () => {
-    // Arrange: Nombre de 50 caracteres
+    // Arrange
     const maxName = 'A'.repeat(50);
     // Act
-    const customerName = new CustomerName(maxName);
+    const customerName = CustomerName.create(maxName);
     // Assert
     expect(customerName.getValue()).toBe(maxName);
   });
