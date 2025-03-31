@@ -1,4 +1,4 @@
-import { CustomerPersistenceMapper } from '../../../src/adapters/persistence/CustomerPersistenceMapper';
+import { CustomerPersistenceMapper } from '../../../../src/adapters/persistence/mapper/CustomerPersistenceMapper';
 import { Customer } from '../../../../src/domain/entities/Customer';
 import { CustomerId } from '../../../../src/domain/vo/CustomerId';
 import { CustomerName } from '../../../../src/domain/vo/CustomerName';
