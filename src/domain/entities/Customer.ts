@@ -18,7 +18,7 @@ export class Customer {
     this.id = id;
     this.name = name;
     this.email = email;
-    this.availableCredit = availableCredit ?? new AvailableCredit(0);
+    this.availableCredit = availableCredit ?? AvailableCredit.create(0);
   }
 
   addCredit(amount: AvailableCredit): void {

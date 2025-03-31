@@ -36,7 +36,7 @@ describe('CustomerMapper', () => {
       new CustomerId('1'),
       new CustomerName('Test'),
       new Email('test@example.com'),
-      new AvailableCredit(100)
+      AvailableCredit.create(100)
     );
 
     // Act

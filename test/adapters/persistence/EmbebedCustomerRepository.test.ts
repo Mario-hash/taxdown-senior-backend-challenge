@@ -18,7 +18,7 @@ describe('MemoryCustomerRepository', () => {
     repo = new EmbebedCustomerRepository();
     tesId = new CustomerId('1');
     testName = new CustomerName('Test');
-    testCredit = new AvailableCredit(100);
+    testCredit = AvailableCredit.create(100);
     testEmail = new Email('test@example.com');
     testCustomer = new Customer(tesId, testName, testEmail, testCredit);
   });
@@ -37,7 +37,7 @@ describe('MemoryCustomerRepository', () => {
     // Arrange
     await repo.create(testCustomer);
     //Act
-    testCustomer.availableCredit = new AvailableCredit(150);
+    testCustomer.availableCredit = AvailableCredit.create(150);
     await repo.update(testCustomer);
     const customer = await repo.findById(tesId);
     //Assert

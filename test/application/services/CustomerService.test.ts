@@ -19,7 +19,7 @@ describe('CustomerService addCredit initial test', () => {
   beforeEach(() => {
     tesId = new CustomerId('1');
     testName = new CustomerName('Test');
-    testCredit = new AvailableCredit(100);
+    testCredit = AvailableCredit.create(100);
     testEmail = new Email('test@example.com');
     testCustomer = new Customer(tesId, testName, testEmail, testCredit);
 
@@ -37,7 +37,7 @@ describe('CustomerService addCredit initial test', () => {
 
   it('should add credit to a customer', async () => {
     // Act
-    const updatedCustomer = await customerService.addCredit(tesId, new AvailableCredit(50));
+    const updatedCustomer = await customerService.addCredit(tesId, AvailableCredit.create(50));
     
     // Assert
     expect(updatedCustomer.availableCredit.getValue()).toBe(150);
@@ -101,7 +101,7 @@ describe('CustomerService addCredit initial test', () => {
 
   it('listCustomersSortedByCredit should return customers sorted descending by availableCredit', async () => {
     // Arrange
-    const customer2 = new Customer(new CustomerId('2'), new CustomerName("User Two"), new Email("two@example.com"), new AvailableCredit(200));
+    const customer2 = new Customer(new CustomerId('2'), new CustomerName("User Two"), new Email("two@example.com"), AvailableCredit.create(200));
     customerRepository.findAll.mockResolvedValueOnce([testCustomer, customer2]);
     
     // Act

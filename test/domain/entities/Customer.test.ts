@@ -14,7 +14,7 @@ describe('Customer Entity', () => {
     // Arrange
     tesId = new CustomerId('1');
     testName = new CustomerName('Test');
-    testCredit = new AvailableCredit(100);
+    testCredit = AvailableCredit.create(100);
     testEmail = new Email('test@example.com');
   });
 
@@ -34,7 +34,7 @@ describe('Customer Entity', () => {
     const customer = new Customer(tesId, testName, testEmail, testCredit);
 
     // Act
-    customer.addCredit(new AvailableCredit(50));
+    customer.addCredit(AvailableCredit.create(50));
 
     // Assert
     expect(customer.availableCredit.getValue()).toBe(150);

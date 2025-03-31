@@ -15,7 +15,7 @@ const customerService = new CustomerService(repository);
 router.post('/customers/:id/credit',async (req: Request, res: Response) => {
   const { id } = req.params;
   const { amount } = req.body;
-  const updatedCustomer = await customerService.addCredit(new CustomerId(id), new AvailableCredit(amount));
+  const updatedCustomer = await customerService.addCredit(new CustomerId(id), AvailableCredit.create(amount));
   const result = CustomerMapper.toDTO(updatedCustomer);
   res.status(200).json(result);
 });

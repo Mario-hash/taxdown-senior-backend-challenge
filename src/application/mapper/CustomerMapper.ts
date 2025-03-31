@@ -11,7 +11,7 @@ export class CustomerMapper {
       new CustomerId(dto.id),
       new CustomerName(dto.name),
       new Email(dto.email),
-      new AvailableCredit(dto.availableCredit ?? 0)
+      AvailableCredit.create(dto.availableCredit ?? 0)
     );
   }
 
