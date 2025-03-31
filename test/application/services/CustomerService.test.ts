@@ -1,7 +1,7 @@
 import { Customer } from "../../../src/domain/entities/Customer";
 import { CustomerService } from "../../../src/application/services/CustomerService";
 import { ICustomerRepository } from "../../../src/domain/repository/ICustomerRepository";
-import { Email } from "../../../src/domain/vo/CustomerEmail";
+import { CustomerEmail } from "../../../src/domain/vo/CustomerEmail";
 import { CustomerId } from "../../../src/domain/vo/CustomerId";
 import { CustomerName } from "../../../src/domain/vo/CustomerName";
 import { AvailableCredit } from "../../../src/domain/vo/AvailableCredit";
@@ -14,13 +14,13 @@ describe('CustomerService addCredit initial test', () => {
   let tesId: CustomerId
   let testName: CustomerName
   let testCredit: AvailableCredit
-  let testEmail: Email;
+  let testEmail: CustomerEmail;
 
   beforeEach(() => {
     tesId = CustomerId.create('1');
     testName = CustomerName.create('Test');
     testCredit = AvailableCredit.create(100);
-    testEmail = Email.create('test@example.com');
+    testEmail = CustomerEmail.create('test@example.com');
     testCustomer = new Customer(tesId, testName, testEmail, testCredit);
 
     // Objeto simulado que cumple con ICustomerRepository
@@ -101,7 +101,7 @@ describe('CustomerService addCredit initial test', () => {
 
   it('listCustomersSortedByCredit should return customers sorted descending by availableCredit', async () => {
     // Arrange
-    const customer2 = new Customer(CustomerId.create('2'), CustomerName.create("User Two"), Email.create("two@example.com"), AvailableCredit.create(200));
+    const customer2 = new Customer(CustomerId.create('2'), CustomerName.create("User Two"), CustomerEmail.create("two@example.com"), AvailableCredit.create(200));
     customerRepository.findAll.mockResolvedValueOnce([testCustomer, customer2]);
     
     // Act

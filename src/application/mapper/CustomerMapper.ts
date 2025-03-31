@@ -2,7 +2,7 @@ import { CustomerDTO } from '../dto/CustomerDTO';
 import { Customer } from '../../domain/entities/Customer';
 import { CustomerId } from '../../domain/vo/CustomerId';
 import { CustomerName } from '../../domain/vo/CustomerName';
-import { Email } from '../../domain/vo/CustomerEmail';
+import { CustomerEmail } from '../../domain/vo/CustomerEmail';
 import { AvailableCredit } from '../../domain/vo/AvailableCredit';
 
 export class CustomerMapper {
@@ -10,7 +10,7 @@ export class CustomerMapper {
     return new Customer(
       CustomerId.create(dto.id),
       CustomerName.create(dto.name),
-      Email.create(dto.email),
+      CustomerEmail.create(dto.email),
       AvailableCredit.create(dto.availableCredit ?? 0)
     );
   }

@@ -1,4 +1,4 @@
-import { Email } from '../../../src/domain/vo/CustomerEmail';
+import { CustomerEmail } from '../../../src/domain/vo/CustomerEmail';
 
 describe('Email Value Object', () => {
   it('should create a valid Email instance with a correct email string', () => {
@@ -6,7 +6,7 @@ describe('Email Value Object', () => {
     const validEmail = 'test@example.com';
     
     // Act
-    const emailObj = Email.create(validEmail);
+    const emailObj = CustomerEmail.create(validEmail);
     
     // Assert
     expect(emailObj.getValue()).toBe(validEmail);
@@ -17,7 +17,7 @@ describe('Email Value Object', () => {
     const invalidEmail = 'invalid-email';
     
     // Act & Assert
-    expect(() => Email.create(invalidEmail)).toThrow('Invalid email format');
+    expect(() => CustomerEmail.create(invalidEmail)).toThrow('Invalid email format');
   });
 
   it('should throw an error for an empty email string', () => {
@@ -25,6 +25,6 @@ describe('Email Value Object', () => {
     const emptyEmail = '';
     
     // Act & Assert
-    expect(() => Email.create(emptyEmail)).toThrow('Invalid email format');
+    expect(() => CustomerEmail.create(emptyEmail)).toThrow('Invalid email format');
   });
 });

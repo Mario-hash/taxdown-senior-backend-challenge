@@ -1,5 +1,5 @@
 import { Customer } from '../../../src/domain/entities/Customer';
-import { Email } from '../../../src/domain/vo/CustomerEmail';
+import { CustomerEmail } from '../../../src/domain/vo/CustomerEmail';
 import { CustomerId } from '../../../src/domain/vo/CustomerId';
 import { CustomerName } from '../../../src/domain/vo/CustomerName';
 import { AvailableCredit } from '../../../src/domain/vo/AvailableCredit';
@@ -8,14 +8,14 @@ describe('Customer Entity', () => {
   let tesId: CustomerId
   let testName: CustomerName
   let testCredit: AvailableCredit
-  let testEmail: Email;
+  let testEmail: CustomerEmail;
 
   beforeEach(() => {
     // Arrange
     tesId = CustomerId.create('1');
     testName = CustomerName.create('Test');
     testCredit = AvailableCredit.create(100);
-    testEmail = Email.create('test@example.com');
+    testEmail = CustomerEmail.create('test@example.com');
   });
 
   it('should create a customer with provided attributes', () => {

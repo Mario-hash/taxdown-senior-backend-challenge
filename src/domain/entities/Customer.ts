@@ -1,18 +1,18 @@
 import { AvailableCredit } from "../vo/AvailableCredit";
 import { CustomerId } from "../vo/CustomerId";
 import { CustomerName } from "../vo/CustomerName";
-import { Email } from "../vo/CustomerEmail";
+import { CustomerEmail } from "../vo/CustomerEmail";
 
 export class Customer {
   public id: CustomerId;
   public name: CustomerName;
-  public email: Email;
+  public email: CustomerEmail;
   public availableCredit: AvailableCredit;
 
   constructor(
     id: CustomerId,
     name: CustomerName,
-    email: Email,
+    email: CustomerEmail,
     availableCredit?: AvailableCredit
   ) {
     this.id = id;

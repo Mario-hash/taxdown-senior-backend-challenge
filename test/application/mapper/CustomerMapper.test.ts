@@ -1,7 +1,7 @@
 import { CustomerMapper } from '../../../src/application/mapper/CustomerMapper';
 import { CustomerDTO } from '../../../src/application/dto/CustomerDTO';
 import { Customer } from '../../../src/domain/entities/Customer';
-import { Email } from '../../../src/domain/vo/CustomerEmail';
+import { CustomerEmail } from '../../../src/domain/vo/CustomerEmail';
 import { CustomerId } from '../../../src/domain/vo/CustomerId';
 import { CustomerName } from '../../../src/domain/vo/CustomerName';
 import { AvailableCredit } from '../../../src/domain/vo/AvailableCredit';
@@ -24,7 +24,7 @@ describe('CustomerMapper', () => {
     expect(customer.id.getValue()).toBe('1');
     expect(customer.name).toBeInstanceOf(CustomerName);
     expect(customer.name.getValue()).toBe('Test');
-    expect(customer.email).toBeInstanceOf(Email);
+    expect(customer.email).toBeInstanceOf(CustomerEmail);
     expect(customer.email.getValue()).toBe('test@example.com');
     expect(customer.availableCredit).toBeInstanceOf(AvailableCredit);
     expect(customer.availableCredit.getValue()).toBe(100);
@@ -35,7 +35,7 @@ describe('CustomerMapper', () => {
     const customer = new Customer(
       CustomerId.create('1'),
       CustomerName.create('Test'),
-      Email.create('test@example.com'),
+      CustomerEmail.create('test@example.com'),
       AvailableCredit.create(100)
     );
 
