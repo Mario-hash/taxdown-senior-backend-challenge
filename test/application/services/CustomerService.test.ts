@@ -30,6 +30,7 @@ describe('CustomerService addCredit initial test', () => {
       delete: jest.fn().mockResolvedValue(undefined),
       findById: jest.fn().mockResolvedValue(testCustomer),
       findAll: jest.fn().mockResolvedValue([testCustomer]),
+      findByEmail: jest.fn().mockResolvedValue(testCustomer),
     };
 
     customerService = new CustomerService(customerRepository);
@@ -62,6 +63,9 @@ describe('CustomerService addCredit initial test', () => {
   });
 
   it('createCustomer should create and return the customer', async () => {
+    //Arrange
+    customerRepository.findByEmail.mockResolvedValueOnce(null);
+    
     // Act
     const created = await customerService.createCustomer(testCustomer);
     

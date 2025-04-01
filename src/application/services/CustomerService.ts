@@ -3,6 +3,7 @@ import { Customer } from '../../domain/entities/Customer';
 import { CustomerId } from '../../domain/vo/CustomerId';
 import { AvailableCredit } from '../../domain/vo/AvailableCredit';
 import { NotFoundError } from '../../domain/exceptions/NotFoundError';
+import { EmailAlreadyExistsException } from '../../domain/exceptions/vo/customeremail/EmailAlreadyExistsException';
 
 export class CustomerService {
   constructor(private customerRepository: CustomerRepository) {}
@@ -17,6 +18,10 @@ export class CustomerService {
   }
 
   async createCustomer(customer: Customer): Promise<Customer> {
+    const existing = await this.customerRepository.findByEmail(customer.email);
+    if (existing) {
+      throw new EmailAlreadyExistsException(customer.email.getValue());
+    }
     return this.customerRepository.create(customer);
   }
 
