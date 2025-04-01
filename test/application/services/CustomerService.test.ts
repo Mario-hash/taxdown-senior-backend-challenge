@@ -5,8 +5,8 @@ import { CustomerEmail } from "../../../src/domain/vo/CustomerEmail";
 import { CustomerId } from "../../../src/domain/vo/CustomerId";
 import { CustomerName } from "../../../src/domain/vo/CustomerName";
 import { AvailableCredit } from "../../../src/domain/vo/AvailableCredit";
-import { DuplicateCustomerIdException } from "../../../src/domain/exceptions/vo/customerid/DuplicateCustomerIdException";
-import { EmailAlreadyExistsException } from "../../../src/domain/exceptions/vo/customeremail/EmailAlreadyExistsException";
+import { DuplicateCustomerIdException } from "../../../src/domain/exceptions/DuplicateCustomerIdException";
+import { EmailAlreadyExistsException } from "../../../src/domain/exceptions/EmailAlreadyExistsException";
 import { NotFoundError } from "../../../src/domain/exceptions/NotFoundError";
 
 describe('CustomerService addCredit initial test', () => {
