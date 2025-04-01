@@ -1,3 +1,5 @@
+import { MalformedEmailException } from "../exceptions/vo/customeremail/MalformedEmailException";
+
 export class CustomerEmail {
   private readonly value: string;
 
@@ -8,7 +10,7 @@ export class CustomerEmail {
   public static create(value: string): CustomerEmail {
     const emailRegex = /\S+@\S+\.\S+/;
     if (!emailRegex.test(value)) {
-      throw new Error("Invalid email format");
+      throw new MalformedEmailException(value);
     }
     return new CustomerEmail(value);
   }

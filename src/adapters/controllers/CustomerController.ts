@@ -27,53 +27,73 @@ router.post(
   })
 );
 
-router.post('/customers', async (req: Request, res: Response): Promise<any> => {
-  const dto: CustomerDTO = req.body;
-  const customer = CustomerMapper.toDomain(dto);
-  const created = await customerService.createCustomer(customer);
-  const result = CustomerMapper.toDTO(created);
-  return res.status(201).json(result);
-});
+router.post(
+  '/customers',
+  AsyncHandler(async (req: Request, res: Response) => {
+    const dto: CustomerDTO = req.body;
+    const customer = CustomerMapper.toDomain(dto);
+    const created = await customerService.createCustomer(customer);
+    const result = CustomerMapper.toDTO(created);
+    res.status(201).json(result);
+  })
+);
 
 
-router.get('/customers/:id', async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const customer = await customerService.getCustomer(CustomerId.create(id));
-  if (customer) {
-    const dto = CustomerMapper.toDTO(customer);
-    res.status(200).json(dto);
-  }
-});
+router.get(
+  '/customers/:id',
+  AsyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const customer = await customerService.getCustomer(CustomerId.create(id));
+    if (customer) {
+      const dto = CustomerMapper.toDTO(customer);
+      res.status(200).json(dto);
+    } else {
+      res.status(404).json({ message: `Customer ${id} not found` });
+    }
+  })
+);
 
-router.put('/customers/:id', async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const updateData: Partial<CustomerDTO> = req.body;
-  const existing = await customerService.getCustomer(CustomerId.create(id));
-  if (existing){
-    const updatedDTO: CustomerDTO = {
-      id,
-      name: updateData.name ?? existing.name.getValue(),
-      email: updateData.email ?? existing.email.getValue(),
-      availableCredit: updateData.availableCredit !== undefined
-        ? updateData.availableCredit
-        : existing.availableCredit.getValue(),
-    };
-    const updatedEntity = CustomerMapper.toDomain(updatedDTO);
-    const updatedCustomer = await customerService.updateCustomer(updatedEntity);
-    res.status(200).json(CustomerMapper.toDTO(updatedCustomer));
-  }
 
-});
+router.put(
+  '/customers/:id',
+  AsyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const updateData: Partial<CustomerDTO> = req.body;
+    const existing = await customerService.getCustomer(CustomerId.create(id));
+    if (existing) {
+      const updatedDTO: CustomerDTO = {
+        id,
+        name: updateData.name ?? existing.name.getValue(),
+        email: updateData.email ?? existing.email.getValue(),
+        availableCredit:
+          updateData.availableCredit !== undefined
+            ? updateData.availableCredit
+            : existing.availableCredit.getValue(),
+      };
+      const updatedEntity = CustomerMapper.toDomain(updatedDTO);
+      const updatedCustomer = await customerService.updateCustomer(updatedEntity);
+      res.status(200).json(CustomerMapper.toDTO(updatedCustomer));
+    } else {
+      res.status(404).json({ message: `Customer ${id} not found` });
+    }
+  })
+);
 
-router.delete('/customers/:id', async (req: Request, res: Response) => {
-  const { id } = req.params;
-  await customerService.deleteCustomer(CustomerId.create(id));
-  res.status(200).json({ message: `Customer ${id} deleted` });
-});
+router.delete(
+  '/customers/:id',
+  AsyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    await customerService.deleteCustomer(CustomerId.create(id));
+    res.status(200).json({ message: `Customer ${id} deleted` });
+  })
+);
 
-router.get('/customers', async (req: Request, res: Response) => {
-  const customers = await customerService.listCustomersSortedByCredit();
-  const dtos = customers.map(customer => CustomerMapper.toDTO(customer));
-  res.status(200).json(dtos);
-});
+router.get(
+  '/customers',
+  AsyncHandler(async (req: Request, res: Response) => {
+    const customers = await customerService.listCustomersSortedByCredit();
+    const dtos = customers.map(customer => CustomerMapper.toDTO(customer));
+    res.status(200).json(dtos);
+  })
+);
 export default router;

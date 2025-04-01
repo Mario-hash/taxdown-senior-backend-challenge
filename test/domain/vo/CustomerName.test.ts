@@ -1,3 +1,5 @@
+import { CustomerNameTooLongException } from '../../../src/domain/exceptions/vo/customername/CustomerNameTooLongException';
+import { EmptyCustomerNameException } from '../../../src/domain/exceptions/vo/customername/EmptyCustomerNameException';
 import { CustomerName } from '../../../src/domain/vo/CustomerName';
 
 describe('CustomerName Value Object', () => {
@@ -14,14 +16,14 @@ describe('CustomerName Value Object', () => {
     // Arrange
     const invalidName = '   ';
     // Act & Assert
-    expect(() => CustomerName.create(invalidName)).toThrow('Invalid CustomerName');
+    expect(() => CustomerName.create(invalidName)).toThrow(new EmptyCustomerNameException());
   });
 
   it('should throw an error for a name that exceeds the maximum length', () => {
     // Arrange
     const longName = 'A'.repeat(51);
     // Act & Assert
-    expect(() => CustomerName.create(longName)).toThrow('Invalid CustomerName');
+    expect(() => CustomerName.create(longName)).toThrow(new CustomerNameTooLongException(50));
   });
 
   it('should create a valid CustomerName if the length is exactly at the maximum allowed', () => {

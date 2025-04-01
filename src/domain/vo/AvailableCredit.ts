@@ -1,3 +1,4 @@
+import { NegativeCreditException } from '../exceptions/vo/availablecredit/NegativeCreditException';
 export class AvailableCredit {
   private readonly value: number;
 
@@ -10,7 +11,7 @@ export class AvailableCredit {
       throw new Error('AvailableCredit must be a number');
     }
     if (value < 0) {
-      throw new Error('AvailableCredit cannot be negative');
+      throw new NegativeCreditException(value);
     }
     return new AvailableCredit(value);
   }
