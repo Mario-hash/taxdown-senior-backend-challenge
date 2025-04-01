@@ -5,17 +5,28 @@ import { AvailableCredit } from '../../domain/vo/AvailableCredit';
 import { NotFoundError } from '../../domain/exceptions/NotFoundError';
 import { EmailAlreadyExistsException } from '../../domain/exceptions/vo/customeremail/EmailAlreadyExistsException';
 import { DuplicateCustomerIdException } from '../../domain/exceptions/vo/customerid/DuplicateCustomerIdException';
+import { Either } from '../../shared/Either';
 
 export class CustomerService {
   constructor(private customerRepository: CustomerRepository) {}
 
-  async addCredit(customerId: CustomerId, amount: AvailableCredit): Promise<Customer> {
+  //async addCredit(customerId: CustomerId, amount: AvailableCredit): Promise<Customer> {
+  //  const customer = await this.customerRepository.findById(customerId);
+  //  if (!customer) {
+  //    throw new NotFoundError('Customer', customerId.getValue());
+  //  }
+  //  customer.addCredit(amount);
+  //  return this.customerRepository.update(customer);
+  //}
+
+  async addCredit(customerId: CustomerId, amount: AvailableCredit): Promise<Either<NotFoundError, Customer>> {
     const customer = await this.customerRepository.findById(customerId);
     if (!customer) {
-      throw new NotFoundError('Customer', customerId.getValue());
+      return Either.left(new NotFoundError('Customer', customerId.getValue()));
     }
     customer.addCredit(amount);
-    return this.customerRepository.update(customer);
+    const updated = await this.customerRepository.update(customer);
+    return Either.right(updated);
   }
 
   async createCustomer(customer: Customer): Promise<Customer> {
