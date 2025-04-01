@@ -1,3 +1,5 @@
+import { EmptyCustomerNameException } from '../exceptions/vo/customername/EmptyCustomerNameException';
+import { CustomerNameTooLongException } from '../exceptions/vo/customername/CustomerNameTooLongException';
 export class CustomerName {
   private readonly value: string;
   private static readonly MAX_LENGTH = 50;
@@ -9,10 +11,10 @@ export class CustomerName {
   public static create(name: string): CustomerName {
     const trimmed = name.trim();
     if (!trimmed || trimmed.length === 0) {
-      throw new Error("Invalid CustomerName");
+      throw new EmptyCustomerNameException();
     }
     if (trimmed.length > CustomerName.MAX_LENGTH) {
-      throw new Error("Invalid CustomerName");
+      throw new CustomerNameTooLongException(CustomerName.MAX_LENGTH);
     }
     return new CustomerName(trimmed);
   }

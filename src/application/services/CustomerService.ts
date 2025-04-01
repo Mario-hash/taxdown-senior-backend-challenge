@@ -2,6 +2,9 @@ import { CustomerRepository } from '../../domain/ports/CustomerRepository';
 import { Customer } from '../../domain/entities/Customer';
 import { CustomerId } from '../../domain/vo/CustomerId';
 import { AvailableCredit } from '../../domain/vo/AvailableCredit';
+import { NotFoundError } from '../../domain/exceptions/NotFoundError';
+import { EmailAlreadyExistsException } from '../../domain/exceptions/vo/customeremail/EmailAlreadyExistsException';
+import { DuplicateCustomerIdException } from '../../domain/exceptions/vo/customerid/DuplicateCustomerIdException';
 
 export class CustomerService {
   constructor(private customerRepository: CustomerRepository) {}
@@ -9,18 +12,30 @@ export class CustomerService {
   async addCredit(customerId: CustomerId, amount: AvailableCredit): Promise<Customer> {
     const customer = await this.customerRepository.findById(customerId);
     if (!customer) {
-      throw new Error(`Customer with id ${customerId.getValue()} not found`);
+      throw new NotFoundError('Customer', customerId.getValue());
     }
     customer.addCredit(amount);
     return this.customerRepository.update(customer);
   }
 
   async createCustomer(customer: Customer): Promise<Customer> {
+    const existingById = await this.customerRepository.findById(customer.id);
+    if (existingById) {
+      throw new DuplicateCustomerIdException(customer.id.getValue());
+    }
+    const existingByEmail = await this.customerRepository.findByEmail(customer.email);
+    if (existingByEmail) {
+      throw new EmailAlreadyExistsException(customer.email.getValue());
+    }
     return this.customerRepository.create(customer);
   }
 
   async getCustomer(customerId: CustomerId): Promise<Customer | null> {
-    return this.customerRepository.findById(customerId);
+    const customer = await this.customerRepository.findById(customerId);
+    if (!customer) {
+      throw new NotFoundError('Customer', customerId.getValue());
+    }
+    return customer
   }
 
   async updateCustomer(customer: Customer): Promise<Customer> {

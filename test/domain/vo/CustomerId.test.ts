@@ -1,3 +1,4 @@
+import { EmptyCustomerIdException } from '../../../src/domain/exceptions/vo/customerid/EmptyCustomerIdException';
 import { CustomerId } from '../../../src/domain/vo/CustomerId';
 
 describe('CustomerId Value Object', () => {
@@ -14,6 +15,6 @@ describe('CustomerId Value Object', () => {
     // Arrange
     const invalidId = '';
     // Act & Assert
-    expect(() => CustomerId.create(invalidId)).toThrow('Invalid CustomerId');
+    expect(() => CustomerId.create(invalidId)).toThrow(new EmptyCustomerIdException());
   });
 });

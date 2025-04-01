@@ -5,6 +5,9 @@ import { CustomerEmail } from "../../../src/domain/vo/CustomerEmail";
 import { CustomerId } from "../../../src/domain/vo/CustomerId";
 import { CustomerName } from "../../../src/domain/vo/CustomerName";
 import { AvailableCredit } from "../../../src/domain/vo/AvailableCredit";
+import { DuplicateCustomerIdException } from "../../../src/domain/exceptions/vo/customerid/DuplicateCustomerIdException";
+import { EmailAlreadyExistsException } from "../../../src/domain/exceptions/vo/customeremail/EmailAlreadyExistsException";
+import { NotFoundError } from "../../../src/domain/exceptions/NotFoundError";
 
 describe('CustomerService addCredit initial test', () => {
   let customerRepository: jest.Mocked<CustomerRepository>;
@@ -30,6 +33,7 @@ describe('CustomerService addCredit initial test', () => {
       delete: jest.fn().mockResolvedValue(undefined),
       findById: jest.fn().mockResolvedValue(testCustomer),
       findAll: jest.fn().mockResolvedValue([testCustomer]),
+      findByEmail: jest.fn().mockResolvedValue(testCustomer),
     };
 
     customerService = new CustomerService(customerRepository);
@@ -62,12 +66,34 @@ describe('CustomerService addCredit initial test', () => {
   });
 
   it('createCustomer should create and return the customer', async () => {
+    //Arrange
+    customerRepository.findById.mockResolvedValueOnce(null);
+    customerRepository.findByEmail.mockResolvedValueOnce(null);
+    
     // Act
     const created = await customerService.createCustomer(testCustomer);
     
     // Assert
     expect(customerRepository.create).toHaveBeenCalledWith(testCustomer);
     expect(created).toEqual(testCustomer);
+  });
+
+  it('createCustomer should throw an error if customerId is duplicate', async () => {
+    //Arrange
+    customerRepository.findByEmail.mockResolvedValueOnce(null);
+    
+    // Assert
+    await expect(customerService.createCustomer(testCustomer))
+    .rejects.toThrow(DuplicateCustomerIdException);
+  });
+
+  it('createCustomer should throw an error if customerEmail is duplicate', async () => {
+    //Arrange
+    customerRepository.findById.mockResolvedValueOnce(null);
+    
+    // Assert
+    await expect(customerService.createCustomer(testCustomer))
+    .rejects.toThrow(EmailAlreadyExistsException);
   });
 
   it('getCustomer should return the customer if it exists', async () => {
@@ -77,6 +103,15 @@ describe('CustomerService addCredit initial test', () => {
     // Assert
     expect(customerRepository.findById).toHaveBeenCalledWith(tesId);
     expect(result).toEqual(testCustomer);
+  });
+
+  it('getCustomer should throw an error if customerId not found', async () => {
+    // Act
+    customerRepository.findById.mockResolvedValueOnce(null);
+    
+    // Assert
+    await expect(customerService.getCustomer(tesId))
+    .rejects.toThrow(NotFoundError);
   });
 
   it('updateCustomer should update and return the customer', async () => {

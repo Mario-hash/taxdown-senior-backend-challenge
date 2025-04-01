@@ -1,3 +1,4 @@
+import { EmptyCustomerIdException } from '../exceptions/vo/customerid/EmptyCustomerIdException';
 export class CustomerId {
   private readonly value: string;
 
@@ -7,7 +8,7 @@ export class CustomerId {
 
   public static create(value: string): CustomerId {
     if (!value || value.trim() === "") {
-      throw new Error("Invalid CustomerId");
+      throw new EmptyCustomerIdException();
     }
     return new CustomerId(value.trim());
   }
