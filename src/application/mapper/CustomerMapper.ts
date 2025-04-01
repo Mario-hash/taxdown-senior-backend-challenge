@@ -8,14 +8,13 @@ import { MandatoryFieldMissingException } from '../../domain/exceptions/Mandator
 
 export class CustomerMapper {
   public static toDomain(dto: CustomerDTO): Customer {
-    if (!dto.id) {
-      throw new MandatoryFieldMissingException('id');
-    }
-    if (!dto.name) {
-      throw new MandatoryFieldMissingException('name');
-    }
-    if (!dto.email) {
-      throw new MandatoryFieldMissingException('email');
+    const missingFields: string[] = [];
+    if (!dto.id) missingFields.push('id');
+    if (!dto.name) missingFields.push('name');
+    if (!dto.email) missingFields.push('email');
+
+    if (missingFields.length > 0) {
+      throw new MandatoryFieldMissingException(missingFields.join(', '));
     }
     
     return new Customer(
