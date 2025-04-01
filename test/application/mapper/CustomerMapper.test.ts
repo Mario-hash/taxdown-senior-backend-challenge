@@ -88,4 +88,15 @@ describe('CustomerMapper', () => {
     expect(() => CustomerMapper.toDomain(incompleteDto as any))
       .toThrow(new MandatoryFieldMissingException('name').message);
   });
+
+  it('should throw an exception listing all missing fields when multiple are missing', () => {
+    // Arrange
+    const incompleteDto = {
+      name: "Test"
+    };
+    
+    // Act & Assert
+    expect(() => CustomerMapper.toDomain(incompleteDto as any))
+      .toThrow(new MandatoryFieldMissingException('id, email').message);
+  });
 });
