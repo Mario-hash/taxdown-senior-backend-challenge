@@ -1,6 +1,6 @@
 import { CustomerEmail } from '../../../src/domain/vo/CustomerEmail';
 import { MalformedEmailException } from '../../../src/domain/exceptions/vo/customeremail/MalformedEmailException';
-import { EmailAlreadyExistsException } from '../../../src/domain/exceptions/vo/customeremail/EmailAlreadyExistsException';
+import { EmailAlreadyExistsException } from '../../../src/domain/exceptions/EmailAlreadyExistsException';
 
 
 describe('Email Value Object', () => {
