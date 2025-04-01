@@ -5,6 +5,8 @@ import { CustomerEmail } from "../../../src/domain/vo/CustomerEmail";
 import { CustomerId } from "../../../src/domain/vo/CustomerId";
 import { CustomerName } from "../../../src/domain/vo/CustomerName";
 import { AvailableCredit } from "../../../src/domain/vo/AvailableCredit";
+import { DuplicateCustomerIdException } from "../../../src/domain/exceptions/vo/customerid/DuplicateCustomerIdException";
+import { EmailAlreadyExistsException } from "../../../src/domain/exceptions/vo/customeremail/EmailAlreadyExistsException";
 
 describe('CustomerService addCredit initial test', () => {
   let customerRepository: jest.Mocked<CustomerRepository>;
@@ -64,6 +66,7 @@ describe('CustomerService addCredit initial test', () => {
 
   it('createCustomer should create and return the customer', async () => {
     //Arrange
+    customerRepository.findById.mockResolvedValueOnce(null);
     customerRepository.findByEmail.mockResolvedValueOnce(null);
     
     // Act
@@ -72,6 +75,24 @@ describe('CustomerService addCredit initial test', () => {
     // Assert
     expect(customerRepository.create).toHaveBeenCalledWith(testCustomer);
     expect(created).toEqual(testCustomer);
+  });
+
+  it('createCustomer should throw an error if customerId is duplicate', async () => {
+    //Arrange
+    customerRepository.findByEmail.mockResolvedValueOnce(null);
+    
+    // Assert
+    await expect(customerService.createCustomer(testCustomer))
+    .rejects.toThrow(DuplicateCustomerIdException);
+  });
+
+  it('createCustomer should throw an error if customerEmail is duplicate', async () => {
+    //Arrange
+    customerRepository.findById.mockResolvedValueOnce(null);
+    
+    // Assert
+    await expect(customerService.createCustomer(testCustomer))
+    .rejects.toThrow(EmailAlreadyExistsException);
   });
 
   it('getCustomer should return the customer if it exists', async () => {

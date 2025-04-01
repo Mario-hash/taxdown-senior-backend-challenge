@@ -62,4 +62,14 @@ describe('MemoryCustomerRepository', () => {
     //Assert
     expect(customers.length).toBe(1);
   });
+
+  it('should return customer by email', async () => {
+    // Arrange
+    await repo.create(testCustomer);
+    //Act
+    const customer = await repo.findByEmail(testEmail);
+    //Assert
+    expect(customer).not.toBeNull();
+    expect(customer?.email).toBe(testEmail);
+  });
 });
