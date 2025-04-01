@@ -5,6 +5,8 @@ import { CustomerEmail } from '../../../src/domain/vo/CustomerEmail';
 import { CustomerId } from '../../../src/domain/vo/CustomerId';
 import { CustomerName } from '../../../src/domain/vo/CustomerName';
 import { AvailableCredit } from '../../../src/domain/vo/AvailableCredit';
+import { MandatoryFieldMissingException } from '../../../src/domain/exceptions/MandatoryFieldMissingException';
+
 
 describe('CustomerMapper', () => {
   it('should map CustomerDTO to Customer entity', () => {
@@ -49,5 +51,41 @@ describe('CustomerMapper', () => {
       email: 'test@example.com',
       availableCredit: 100
     });
+  });
+
+  it('should throw an error if the email field is missing', () => {
+    // Arrange
+    const incompleteDto = {
+      id: "5",
+      name: "Test5"
+    };
+
+    // Act & Assert
+    expect(() => CustomerMapper.toDomain(incompleteDto as any))
+      .toThrow(new MandatoryFieldMissingException('email').message);
+  });
+
+  it('should throw an error if the id field is missing', () => {
+    // Arrange
+    const incompleteDto = {
+      name: "Test5",
+      email: "test5@example.com"
+    };
+
+    // Act & Assert
+    expect(() => CustomerMapper.toDomain(incompleteDto as any))
+      .toThrow(new MandatoryFieldMissingException('id').message);
+  });
+
+  it('should throw an error if the name field is missing', () => {
+    // Arrange
+    const incompleteDto = {
+      id: "5",
+      email: "test5@example.com"
+    };
+
+    // Act & Assert
+    expect(() => CustomerMapper.toDomain(incompleteDto as any))
+      .toThrow(new MandatoryFieldMissingException('name').message);
   });
 });
