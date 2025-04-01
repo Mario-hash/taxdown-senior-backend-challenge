@@ -1,3 +1,4 @@
+import { InvalidAvailableCreditException } from '../exceptions/vo/availablecredit/InvalidAvailableCreditException';
 import { NegativeCreditException } from '../exceptions/vo/availablecredit/NegativeCreditException';
 export class AvailableCredit {
   private readonly value: number;
@@ -8,7 +9,7 @@ export class AvailableCredit {
 
   public static create(value: any): AvailableCredit {
     if (typeof value !== 'number' || isNaN(value)) {
-      throw new Error('AvailableCredit must be a number');
+      throw new InvalidAvailableCreditException();
     }
     if (value < 0) {
       throw new NegativeCreditException(value);

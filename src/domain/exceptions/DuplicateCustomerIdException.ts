@@ -1,4 +1,4 @@
-import { DomainError } from '../../DomainError';
+import { DomainError } from './DomainError';
 
 export class DuplicateCustomerIdException extends DomainError {
   constructor(id: string) {
