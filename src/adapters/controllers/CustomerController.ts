@@ -38,7 +38,6 @@ router.post(
   })
 );
 
-
 router.get(
   '/customers/:id',
   AsyncHandler(async (req: Request, res: Response) => {
@@ -47,12 +46,9 @@ router.get(
     if (customer) {
       const dto = CustomerMapper.toDTO(customer);
       res.status(200).json(dto);
-    } else {
-      res.status(404).json({ message: `Customer ${id} not found` });
     }
   })
 );
-
 
 router.put(
   '/customers/:id',
@@ -73,8 +69,6 @@ router.put(
       const updatedEntity = CustomerMapper.toDomain(updatedDTO);
       const updatedCustomer = await customerService.updateCustomer(updatedEntity);
       res.status(200).json(CustomerMapper.toDTO(updatedCustomer));
-    } else {
-      res.status(404).json({ message: `Customer ${id} not found` });
     }
   })
 );

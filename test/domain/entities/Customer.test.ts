@@ -29,6 +29,17 @@ describe('Customer Entity', () => {
     expect(customer.availableCredit.getValue()).toBe(100);
   });
 
+  it('should create a customer without availableCredit', () => {
+    // Act
+    const customer = new Customer(tesId, testName, testEmail);
+
+    // Assert
+    expect(customer.id.getValue()).toBe('1');
+    expect(customer.name.getValue()).toBe('Test');
+    expect(customer.email.getValue()).toBe('test@example.com');
+    expect(customer.availableCredit.getValue()).toBe(0);
+  });
+
   it('should add credit to a customer', () => {
     // Arrange
     const customer = new Customer(tesId, testName, testEmail, testCredit);

@@ -7,6 +7,7 @@ import { CustomerName } from "../../../src/domain/vo/CustomerName";
 import { AvailableCredit } from "../../../src/domain/vo/AvailableCredit";
 import { DuplicateCustomerIdException } from "../../../src/domain/exceptions/vo/customerid/DuplicateCustomerIdException";
 import { EmailAlreadyExistsException } from "../../../src/domain/exceptions/vo/customeremail/EmailAlreadyExistsException";
+import { NotFoundError } from "../../../src/domain/exceptions/NotFoundError";
 
 describe('CustomerService addCredit initial test', () => {
   let customerRepository: jest.Mocked<CustomerRepository>;
@@ -102,6 +103,15 @@ describe('CustomerService addCredit initial test', () => {
     // Assert
     expect(customerRepository.findById).toHaveBeenCalledWith(tesId);
     expect(result).toEqual(testCustomer);
+  });
+
+  it('getCustomer should throw an error if customerId not found', async () => {
+    // Act
+    customerRepository.findById.mockResolvedValueOnce(null);
+    
+    // Assert
+    await expect(customerService.getCustomer(tesId))
+    .rejects.toThrow(NotFoundError);
   });
 
   it('updateCustomer should update and return the customer', async () => {

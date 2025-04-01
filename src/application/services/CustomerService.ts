@@ -31,7 +31,11 @@ export class CustomerService {
   }
 
   async getCustomer(customerId: CustomerId): Promise<Customer | null> {
-    return this.customerRepository.findById(customerId);
+    const customer = await this.customerRepository.findById(customerId);
+    if (!customer) {
+      throw new NotFoundError('Customer', customerId.getValue());
+    }
+    return customer
   }
 
   async updateCustomer(customer: Customer): Promise<Customer> {
