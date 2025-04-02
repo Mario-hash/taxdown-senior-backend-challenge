@@ -11,6 +11,7 @@ import { NotFoundError } from "../../../src/domain/exceptions/NotFoundError";
 import { Either } from "../../../src/shared/Either";
 import { CustomerDTO } from "../../../src/application/dto/CustomerDTO";
 import { MalformedEmailException } from "../../../src/domain/exceptions/vo/customeremail/MalformedEmailException";
+import { InvalidSortOrderException } from "../../../src/domain/exceptions/InvalidSortOrderException";
 
 describe('CustomerService addCredit initial test', () => {
   let customerRepository: jest.Mocked<CustomerRepository>;
@@ -311,6 +312,18 @@ describe('CustomerService addCredit initial test', () => {
         expect(sorted[0].id.getValue()).toBe('2');
         expect(sorted[1].id.getValue()).toBe('1');
       }
+    );
+  });
+
+  it('should return Left with InvalidSortOrderException when sort order is invalid', async () => {
+    const result = await customerService.listCustomersSortedByCredit('invalid-order');
+  
+    result.fold(
+      error => {
+        expect(error).toBeInstanceOf(InvalidSortOrderException);
+        expect(error.message).toBe("The sort order 'invalid-order' is invalid. Allowed values are 'asc' or 'desc'.");
+      },
+      _ => fail("Expected Left with InvalidSortOrderException but got Right")
     );
   });
 });

@@ -84,7 +84,7 @@ router.delete(
 router.get(
   '/customers',
   AsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    const sortParam = req.query.sort === 'asc' ? 'asc' : 'desc';
+    const sortParam = (req.query.sort as string) || 'desc';
     const result = await customerService.listCustomersSortedByCredit(sortParam);
 
     result.fold(

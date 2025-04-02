@@ -9,6 +9,7 @@ import { Either } from '../../shared/Either';
 import { CustomerDTO } from '../dto/CustomerDTO';
 import { CustomerMapper } from '../mapper/CustomerMapper';
 import { CustomerEmail } from '../../domain/vo/CustomerEmail';
+import { InvalidSortOrderException } from '../../domain/exceptions/InvalidSortOrderException';
 
 export class CustomerService {
   constructor(private customerRepository: CustomerRepository) {}
@@ -81,7 +82,12 @@ export class CustomerService {
     return Either.right(undefined); // TO-DO Aqui rellenaremos cuando conectemos con mongo o la bbdd correspondiente e implementemos errores como mongoException
   }
 
-  async listCustomersSortedByCredit(order: 'asc' | 'desc' = 'desc'): Promise<Either<never, Customer[]>> {
+  async listCustomersSortedByCredit(order: string = 'desc'): Promise<Either<InvalidSortOrderException, Customer[]>> {
+
+    if (order !== 'asc' && order !== 'desc') {
+      return Either.left(new InvalidSortOrderException(order));
+    }
+    
     const customers = await this.customerRepository.findAll();
     const sorted = customers.sort((a, b) => {
       const diff = a.availableCredit.getValue() - b.availableCredit.getValue();
