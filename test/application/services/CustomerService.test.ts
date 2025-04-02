@@ -84,29 +84,53 @@ describe('CustomerService addCredit initial test', () => {
     customerRepository.findByEmail.mockResolvedValueOnce(null);
     
     // Act
-    const created = await customerService.createCustomer(testCustomer);
+    const result = await customerService.createCustomer(testCustomer);
     
     // Assert
-    expect(customerRepository.create).toHaveBeenCalledWith(testCustomer);
-    expect(created).toEqual(testCustomer);
+    expect(Either.right(result));
+    result.fold(
+      error => { throw new Error("Unexpected Left: " + error.message); },
+      created => {
+        expect(customerRepository.create).toHaveBeenCalledWith(testCustomer);
+        expect(created).toEqual(testCustomer);
+      }
+    );
   });
 
   it('createCustomer should throw an error if customerId is duplicate', async () => {
     //Arrange
     customerRepository.findByEmail.mockResolvedValueOnce(null);
     
+    // Act
+    const result = await customerService.createCustomer(testCustomer);
+
     // Assert
-    await expect(customerService.createCustomer(testCustomer))
-    .rejects.toThrow(DuplicateCustomerIdException);
+    expect(Either.left(result));
+    result.fold(
+      error => {
+        expect(error).toBeInstanceOf(DuplicateCustomerIdException);
+        expect(error.message).toBe(`Customer with id ${tesId.getValue()} already exists`);
+      },
+      _ => { throw new Error("Expected Left with DuplicateCustomerIdException, but got Right"); }
+    );
   });
 
   it('createCustomer should throw an error if customerEmail is duplicate', async () => {
     //Arrange
     customerRepository.findById.mockResolvedValueOnce(null);
     
+ // Act
+    const result = await customerService.createCustomer(testCustomer);
+
     // Assert
-    await expect(customerService.createCustomer(testCustomer))
-    .rejects.toThrow(EmailAlreadyExistsException);
+    expect(Either.left(result));
+    result.fold(
+      error => {
+        expect(error).toBeInstanceOf(EmailAlreadyExistsException);
+        expect(error.message).toBe(`The email '${testEmail.getValue()}' is already in use`);
+      },
+      _ => { throw new Error("Expected Left with EmailAlreadyExistsException, but got Right"); }
+    );
   });
 
   it('getCustomer should return the customer if it exists', async () => {

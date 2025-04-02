@@ -20,16 +20,17 @@ export class CustomerService {
     return Either.right(updated);
   }
 
-  async createCustomer(customer: Customer): Promise<Customer> {
+  async createCustomer(customer: Customer): Promise<Either<DuplicateCustomerIdException | EmailAlreadyExistsException, Customer>> {
     const existingById = await this.customerRepository.findById(customer.id);
     if (existingById) {
-      throw new DuplicateCustomerIdException(customer.id.getValue());
+      return Either.left(new DuplicateCustomerIdException(customer.id.getValue()));
     }
     const existingByEmail = await this.customerRepository.findByEmail(customer.email);
     if (existingByEmail) {
-      throw new EmailAlreadyExistsException(customer.email.getValue());
+      return Either.left(new EmailAlreadyExistsException(customer.email.getValue()));
     }
-    return this.customerRepository.create(customer);
+    const created = await this.customerRepository.create(customer);
+    return Either.right(created);
   }
 
   async getCustomer(customerId: CustomerId): Promise<Customer | null> {

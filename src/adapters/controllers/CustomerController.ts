@@ -24,18 +24,20 @@ router.post(
       error => next(error),
       customer => res.status(200).json(CustomerMapper.toDTO(customer))
     );
-    }
-  )
+  })
 );
 
 router.post(
   '/customers',
-  AsyncHandler(async (req: Request, res: Response) => {
+  AsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const dto: CustomerDTO = req.body;
     const customer = CustomerMapper.toDomain(dto);
-    const created = await customerService.createCustomer(customer);
-    const result = CustomerMapper.toDTO(created);
-    res.status(201).json(result);
+    const result = await customerService.createCustomer(customer);
+
+    result.fold(
+      error => next(error),
+      createdCustomer => res.status(201).json(CustomerMapper.toDTO(createdCustomer))
+    );
   })
 );
 
