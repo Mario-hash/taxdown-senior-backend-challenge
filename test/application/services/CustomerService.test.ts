@@ -10,6 +10,7 @@ import { EmailAlreadyExistsException } from "../../../src/domain/exceptions/Emai
 import { NotFoundError } from "../../../src/domain/exceptions/NotFoundError";
 import { Either } from "../../../src/shared/Either";
 import { CustomerDTO } from "../../../src/application/dto/CustomerDTO";
+import { MalformedEmailException } from "../../../src/domain/exceptions/vo/customeremail/MalformedEmailException";
 
 describe('CustomerService addCredit initial test', () => {
   let customerRepository: jest.Mocked<CustomerRepository>;
@@ -164,20 +165,50 @@ describe('CustomerService addCredit initial test', () => {
 
   it('updateCustomer should update and return the customer', async () => {
     // Arrange
-    testCustomer.name = CustomerName.create("Updated Name");
+    customerRepository.findByEmail.mockResolvedValueOnce(null);
     
     const partialUpdate: Partial<CustomerDTO> = {
-      name: "Updated Name"
+      name: "Updated Name",
+      email: "new@example.com",
+      availableCredit: 200
     };
     // Act
     const result = await customerService.updateCustomer(testCustomer.id.getValue(), partialUpdate);
 
 
-    // Assert: Se espera Right con el nombre actualizado
+    // Assert
     expect(Either.right(result));
     result.fold(
       error => { throw new Error("Expected Right but got Left: " + error.message); },
-      updatedCustomer => expect(updatedCustomer.name.getValue()).toBe("Updated Name")
+      updatedCustomer => {
+        expect(updatedCustomer.name.getValue()).toBe("Updated Name");
+        expect(updatedCustomer.email.getValue()).toBe("new@example.com");
+        expect(updatedCustomer.availableCredit.getValue()).toBe(200);
+      }
+    );
+  });
+
+  it('updateCustomer should preserve existing name if name is not provided', async () => {
+    // Arrange
+    customerRepository.findByEmail.mockResolvedValueOnce(null);
+  
+    const partialUpdate: Partial<CustomerDTO> = {
+      email: "new@example.com",
+      availableCredit: 150
+    };
+  
+    // Act
+    const result = await customerService.updateCustomer(testCustomer.id.getValue(), partialUpdate);
+  
+    // Assert
+    expect(Either.right(result));
+    result.fold(
+      error => { throw new Error("Expected Right but got Left: " + error.message); },
+      updatedCustomer => {
+        expect(updatedCustomer.name.getValue()).toBe(testCustomer.name.getValue());
+        expect(updatedCustomer.email.getValue()).toBe("new@example.com");
+        expect(updatedCustomer.availableCredit.getValue()).toBe(150);
+      }
     );
   });
 
@@ -194,6 +225,48 @@ describe('CustomerService addCredit initial test', () => {
       error => expect(error.message).toBe(`Customer with id ${testCustomer.id.getValue()} not found`),
       _ => { throw new Error("Expected Left but got Right"); }
     );
+  });
+
+  it('updateCustomer should return error if new email already exists', async () => {
+    // Arrange
+    const anotherCustomer = new Customer(
+      CustomerId.create('2'),
+      CustomerName.create("User Two"),
+      CustomerEmail.create("new@example.com"),
+      AvailableCredit.create(100)
+    );
+  
+    customerRepository.findById.mockResolvedValueOnce(testCustomer);
+    customerRepository.findByEmail.mockResolvedValueOnce(anotherCustomer);
+  
+    const updateData = {
+      name: "UpdatedName",
+      email: "new@example.com"
+    };
+  
+    // Act
+    const result = await customerService.updateCustomer(testCustomer.id.getValue(), updateData);
+  
+    // Assert
+    expect(Either.left(result));
+    result.fold(
+      error => expect(error).toBeInstanceOf(EmailAlreadyExistsException),
+      _ => fail("Expected an EmailAlreadyExistsException but got Right")
+    );
+  });
+
+  it('should throw MalformedEmailException when email format is invalid', async () => {
+    // Arrange
+    customerRepository.findById.mockResolvedValueOnce(testCustomer);
+  
+    const updateData = {
+      email: "malformedEmail.com"
+    };
+  
+    // Act & Assert
+    await expect(customerService.updateCustomer(testCustomer.id.getValue(), updateData))
+      .rejects
+      .toThrow(MalformedEmailException);
   });
 
   it('deleteCustomer should call repository.delete with the given id', async () => {

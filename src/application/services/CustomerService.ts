@@ -8,6 +8,7 @@ import { DuplicateCustomerIdException } from '../../domain/exceptions/DuplicateC
 import { Either } from '../../shared/Either';
 import { CustomerDTO } from '../dto/CustomerDTO';
 import { CustomerMapper } from '../mapper/CustomerMapper';
+import { CustomerEmail } from '../../domain/vo/CustomerEmail';
 
 export class CustomerService {
   constructor(private customerRepository: CustomerRepository) {}
@@ -49,6 +50,16 @@ export class CustomerService {
   
     if (!existing) {
       return Either.left(new NotFoundError('Customer', customerId.getValue()));
+    }
+
+    const newEmail = updateData.email ?? existing.email.getValue();
+    const sameEmail = existing.email.getValue() === newEmail;
+    
+    if (!sameEmail) {
+      const existingByEmail = await this.customerRepository.findByEmail(CustomerEmail.create(newEmail));
+      if (existingByEmail) {
+        return Either.left(new EmailAlreadyExistsException(newEmail));
+      }
     }
   
     const updatedDTO: CustomerDTO = {
