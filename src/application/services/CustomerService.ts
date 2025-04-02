@@ -3,8 +3,8 @@ import { Customer } from '../../domain/entities/Customer';
 import { CustomerId } from '../../domain/vo/CustomerId';
 import { AvailableCredit } from '../../domain/vo/AvailableCredit';
 import { NotFoundError } from '../../domain/exceptions/NotFoundError';
-import { EmailAlreadyExistsException } from '../../domain/exceptions/vo/customeremail/EmailAlreadyExistsException';
-import { DuplicateCustomerIdException } from '../../domain/exceptions/vo/customerid/DuplicateCustomerIdException';
+import { EmailAlreadyExistsException } from '../../domain/exceptions/EmailAlreadyExistsException';
+import { DuplicateCustomerIdException } from '../../domain/exceptions/DuplicateCustomerIdException';
 import { Either } from '../../shared/Either';
 
 export class CustomerService {

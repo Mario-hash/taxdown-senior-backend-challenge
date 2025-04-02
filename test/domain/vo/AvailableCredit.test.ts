@@ -1,3 +1,5 @@
+import { InvalidAvailableCreditException } from '../../../src/domain/exceptions/vo/availablecredit/InvalidAvailableCreditException';
+import { NegativeCreditException } from '../../../src/domain/exceptions/vo/availablecredit/NegativeCreditException';
 import { AvailableCredit } from '../../../src/domain/vo/AvailableCredit';
 
 describe('AvailableCredit Value Object', () => {
@@ -14,7 +16,7 @@ describe('AvailableCredit Value Object', () => {
     // Arrange
     const negativeCredit = -10;
     // Act & Assert
-    expect(() => AvailableCredit.create(negativeCredit)).toThrow('AvailableCredit cannot be negative');
+    expect(() => AvailableCredit.create(negativeCredit)).toThrow(new NegativeCreditException(negativeCredit));
   });
 
   it('should add credit correctly', () => {
@@ -30,6 +32,6 @@ describe('AvailableCredit Value Object', () => {
     // Arrange
     const invalidCredit: any = "abc";
     // Act & Assert
-    expect(() => AvailableCredit.create(invalidCredit)).toThrow("AvailableCredit must be a number");
+    expect(() => AvailableCredit.create(invalidCredit)).toThrow(new InvalidAvailableCreditException());
   });
 });
