@@ -282,17 +282,35 @@ describe('CustomerService addCredit initial test', () => {
     );
   });
 
-  it('listCustomersSortedByCredit should return customers sorted descending by availableCredit', async () => {
-    // Arrange
-    const customer2 = new Customer(CustomerId.create('2'), CustomerName.create("User Two"), CustomerEmail.create("two@example.com"), AvailableCredit.create(200));
-    customerRepository.findAll.mockResolvedValueOnce([testCustomer, customer2]);
-    
-    // Act
-    const sorted = await customerService.listCustomersSortedByCredit();
-    
-    // Assert
-    expect(customerRepository.findAll).toHaveBeenCalled();
-    expect(sorted[0].id.getValue()).toBe("2");
-    expect(sorted[1].id.getValue()).toBe("1");
+  it('should return customers sorted ascending by availableCredit when order is asc', async () => {
+    const customer1 = new Customer(CustomerId.create('1'), CustomerName.create("User 1"), CustomerEmail.create("a@example.com"), AvailableCredit.create(100));
+    const customer2 = new Customer(CustomerId.create('2'), CustomerName.create("User 2"), CustomerEmail.create("b@example.com"), AvailableCredit.create(200));
+    customerRepository.findAll.mockResolvedValueOnce([customer2, customer1]);
+  
+    const result = await customerService.listCustomersSortedByCredit('asc');
+  
+    result.fold(
+      () => fail("Expected Right but got Left"),
+      sorted => {
+        expect(sorted[0].id.getValue()).toBe('1');
+        expect(sorted[1].id.getValue()).toBe('2');
+      }
+    );
+  });
+  
+  it('should return customers sorted descending by availableCredit when order is desc', async () => {
+    const customer1 = new Customer(CustomerId.create('1'), CustomerName.create("User 1"), CustomerEmail.create("a@example.com"), AvailableCredit.create(100));
+    const customer2 = new Customer(CustomerId.create('2'), CustomerName.create("User 2"), CustomerEmail.create("b@example.com"), AvailableCredit.create(200));
+    customerRepository.findAll.mockResolvedValueOnce([customer1, customer2]);
+  
+    const result = await customerService.listCustomersSortedByCredit('desc');
+  
+    result.fold(
+      () => fail("Expected Right but got Left"),
+      sorted => {
+        expect(sorted[0].id.getValue()).toBe('2');
+        expect(sorted[1].id.getValue()).toBe('1');
+      }
+    );
   });
 });
