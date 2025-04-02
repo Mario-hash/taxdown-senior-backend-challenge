@@ -83,10 +83,17 @@ router.delete(
 
 router.get(
   '/customers',
-  AsyncHandler(async (req: Request, res: Response) => {
-    const customers = await customerService.listCustomersSortedByCredit();
-    const dtos = customers.map(customer => CustomerMapper.toDTO(customer));
-    res.status(200).json(dtos);
+  AsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const sortParam = req.query.sort === 'asc' ? 'asc' : 'desc';
+    const result = await customerService.listCustomersSortedByCredit(sortParam);
+
+    result.fold(
+      error => next(error),
+      customers => {
+        const dtos = customers.map(customer => CustomerMapper.toDTO(customer));
+        res.status(200).json(dtos);
+      }
+    );
   })
 );
 export default router;

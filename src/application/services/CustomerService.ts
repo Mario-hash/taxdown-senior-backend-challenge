@@ -81,8 +81,13 @@ export class CustomerService {
     return Either.right(undefined); // TO-DO Aqui rellenaremos cuando conectemos con mongo o la bbdd correspondiente e implementemos errores como mongoException
   }
 
-  async listCustomersSortedByCredit(): Promise<Customer[]> {
+  async listCustomersSortedByCredit(order: 'asc' | 'desc' = 'desc'): Promise<Either<never, Customer[]>> {
     const customers = await this.customerRepository.findAll();
-    return customers.sort((a, b) => b.availableCredit.getValue() - a.availableCredit.getValue());
+    const sorted = customers.sort((a, b) => {
+      const diff = a.availableCredit.getValue() - b.availableCredit.getValue();
+      return order === 'asc' ? diff : -diff;
+    });
+  
+    return Either.right(sorted);
   }
 }
