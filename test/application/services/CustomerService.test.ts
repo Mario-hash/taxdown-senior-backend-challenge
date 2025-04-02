@@ -9,6 +9,7 @@ import { DuplicateCustomerIdException } from "../../../src/domain/exceptions/Dup
 import { EmailAlreadyExistsException } from "../../../src/domain/exceptions/EmailAlreadyExistsException";
 import { NotFoundError } from "../../../src/domain/exceptions/NotFoundError";
 import { Either } from "../../../src/shared/Either";
+import { CustomerDTO } from "../../../src/application/dto/CustomerDTO";
 
 describe('CustomerService addCredit initial test', () => {
   let customerRepository: jest.Mocked<CustomerRepository>;
@@ -165,8 +166,12 @@ describe('CustomerService addCredit initial test', () => {
     // Arrange
     testCustomer.name = CustomerName.create("Updated Name");
     
+    const partialUpdate: Partial<CustomerDTO> = {
+      name: "Updated Name"
+    };
     // Act
-    const result = await customerService.updateCustomer(testCustomer);
+    const result = await customerService.updateCustomer(testCustomer.id.getValue(), partialUpdate);
+
 
     // Assert: Se espera Right con el nombre actualizado
     expect(Either.right(result));
@@ -181,7 +186,7 @@ describe('CustomerService addCredit initial test', () => {
     customerRepository.findById.mockResolvedValueOnce(null);
     
     // Act
-    const result = await customerService.updateCustomer(testCustomer);
+    const result = await customerService.updateCustomer(testCustomer.id.getValue(), { name: "Whatever" });
 
     // Assert: Se espera Left con NotFoundError
     expect(Either.left(result));

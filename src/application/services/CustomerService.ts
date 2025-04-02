@@ -6,6 +6,8 @@ import { NotFoundError } from '../../domain/exceptions/NotFoundError';
 import { EmailAlreadyExistsException } from '../../domain/exceptions/EmailAlreadyExistsException';
 import { DuplicateCustomerIdException } from '../../domain/exceptions/DuplicateCustomerIdException';
 import { Either } from '../../shared/Either';
+import { CustomerDTO } from '../dto/CustomerDTO';
+import { CustomerMapper } from '../mapper/CustomerMapper';
 
 export class CustomerService {
   constructor(private customerRepository: CustomerRepository) {}
@@ -41,8 +43,26 @@ export class CustomerService {
     return Either.right(customer);
   }
 
-  async updateCustomer(customer: Customer): Promise<Customer> {
-    return this.customerRepository.update(customer);
+  async updateCustomer(id: string, updateData: Partial<CustomerDTO>): Promise<Either<NotFoundError, Customer>> {
+    const customerId = CustomerId.create(id);
+    const existing = await this.customerRepository.findById(customerId);
+  
+    if (!existing) {
+      return Either.left(new NotFoundError('Customer', customerId.getValue()));
+    }
+  
+    const updatedDTO: CustomerDTO = {
+      id,
+      name: updateData.name ?? existing.name.getValue(),
+      email: updateData.email ?? existing.email.getValue(),
+      availableCredit: updateData.availableCredit !== undefined
+        ? updateData.availableCredit
+        : existing.availableCredit.getValue(),
+    };
+  
+    const updatedEntity = CustomerMapper.toDomain(updatedDTO);
+    const updated = await this.customerRepository.update(updatedEntity);
+    return Either.right(updated);
   }
 
   async deleteCustomer(customerId: CustomerId): Promise<void> {

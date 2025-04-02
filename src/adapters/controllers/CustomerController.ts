@@ -55,24 +55,16 @@ router.get(
 
 router.put(
   '/customers/:id',
-  AsyncHandler(async (req: Request, res: Response) => {
+  AsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     const updateData: Partial<CustomerDTO> = req.body;
-    const existing = await customerService.getCustomer(CustomerId.create(id));
-    if (existing) {
-      const updatedDTO: CustomerDTO = {
-        id,
-        name: updateData.name ?? existing.name.getValue(),
-        email: updateData.email ?? existing.email.getValue(),
-        availableCredit:
-          updateData.availableCredit !== undefined
-            ? updateData.availableCredit
-            : existing.availableCredit.getValue(),
-      };
-      const updatedEntity = CustomerMapper.toDomain(updatedDTO);
-      const updatedCustomer = await customerService.updateCustomer(updatedEntity);
-      res.status(200).json(CustomerMapper.toDTO(updatedCustomer));
-    }
+
+    const result = await customerService.updateCustomer(id, updateData);
+
+    result.fold(
+      error => next(error),
+      updatedCustomer => res.status(200).json(CustomerMapper.toDTO(updatedCustomer))
+    );
   })
 );
 
