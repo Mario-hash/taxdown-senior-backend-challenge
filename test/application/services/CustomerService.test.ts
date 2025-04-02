@@ -144,7 +144,7 @@ describe('CustomerService addCredit initial test', () => {
       customer => expect(customer).toEqual(testCustomer)
     );
   });
-  
+
   it('getCustomer should throw an error if customerId not found', async () => {
     // Act
     customerRepository.findById.mockResolvedValueOnce(null);
@@ -166,11 +166,29 @@ describe('CustomerService addCredit initial test', () => {
     testCustomer.name = CustomerName.create("Updated Name");
     
     // Act
-    const updated = await customerService.updateCustomer(testCustomer);
+    const result = await customerService.updateCustomer(testCustomer);
+
+    // Assert: Se espera Right con el nombre actualizado
+    expect(Either.right(result));
+    result.fold(
+      error => { throw new Error("Expected Right but got Left: " + error.message); },
+      updatedCustomer => expect(updatedCustomer.name.getValue()).toBe("Updated Name")
+    );
+  });
+
+  it('should return Left with NotFoundError when updateCustomer is called for a non-existent customer', async () => {
+    // Arrange
+    customerRepository.findById.mockResolvedValueOnce(null);
     
-    // Assert
-    expect(customerRepository.update).toHaveBeenCalledWith(testCustomer);
-    expect(updated.name.getValue()).toBe("Updated Name");
+    // Act
+    const result = await customerService.updateCustomer(testCustomer);
+
+    // Assert: Se espera Left con NotFoundError
+    expect(Either.left(result));
+    result.fold(
+      error => expect(error.message).toBe(`Customer with id ${testCustomer.id.getValue()} not found`),
+      _ => { throw new Error("Expected Left but got Right"); }
+    );
   });
 
   it('deleteCustomer should call repository.delete with the given id', async () => {
