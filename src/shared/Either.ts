@@ -13,14 +13,6 @@ export class Either<L, R> {
     return new Either<L, R>({ kind: "right", rightValue: value });
   }
 
-  //isLeft(): boolean {
-  //  return this.value.kind === "left";
-  //}
-  //
-  //isRight(): boolean {
-  //  return this.value.kind === "right";
-  //}
-
   fold<T>(leftFn: (left: L) => T, rightFn: (right: R) => T): T {
         switch (this.value.kind) {
         case "left":
