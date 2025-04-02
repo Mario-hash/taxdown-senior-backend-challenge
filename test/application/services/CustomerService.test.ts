@@ -143,7 +143,8 @@ describe('CustomerService addCredit initial test', () => {
       error => { throw new Error("Unexpected Left: " + error.message); },
       customer => expect(customer).toEqual(testCustomer)
     );
-
+  });
+  
   it('getCustomer should throw an error if customerId not found', async () => {
     // Act
     customerRepository.findById.mockResolvedValueOnce(null);
@@ -158,7 +159,7 @@ describe('CustomerService addCredit initial test', () => {
       _ => { throw new Error("Expected Left but got Right"); }
     );
   });
-  });
+  
 
   it('updateCustomer should update and return the customer', async () => {
     // Arrange

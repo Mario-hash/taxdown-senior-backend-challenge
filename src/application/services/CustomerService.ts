@@ -33,12 +33,12 @@ export class CustomerService {
     return Either.right(created);
   }
 
-  async getCustomer(customerId: CustomerId): Promise<Customer | null> {
+  async getCustomer(customerId: CustomerId): Promise<Either<NotFoundError, Customer>> {
     const customer = await this.customerRepository.findById(customerId);
     if (!customer) {
-      throw new NotFoundError('Customer', customerId.getValue());
+      return Either.left(new NotFoundError('Customer', customerId.getValue()));
     }
-    return customer
+    return Either.right(customer);
   }
 
   async updateCustomer(customer: Customer): Promise<Customer> {

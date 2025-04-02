@@ -43,13 +43,13 @@ router.post(
 
 router.get(
   '/customers/:id',
-  AsyncHandler(async (req: Request, res: Response) => {
+  AsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    const customer = await customerService.getCustomer(CustomerId.create(id));
-    if (customer) {
-      const dto = CustomerMapper.toDTO(customer);
-      res.status(200).json(dto);
-    }
+    const result = await customerService.getCustomer(CustomerId.create(id));
+    result.fold(
+      error => next(error),
+      customer => res.status(200).json(CustomerMapper.toDTO(customer))
+    );
   })
 );
 
