@@ -13,20 +13,6 @@ const router = Router();
 const repository = new InMemoryCustomerRepository();
 const customerService = new CustomerService(repository);
 
-//router.post(
-//  '/customers/:id/credit',
-//  AsyncHandler(async (req: Request, res: Response) => {
-//    const { id } = req.params;
-//    const { amount } = req.body;
-//    const updatedCustomer = await customerService.addCredit(
-//      CustomerId.create(id),
-//      AvailableCredit.create(amount)
-//    );
-//    const result = CustomerMapper.toDTO(updatedCustomer);
-//    res.status(200).json(result);
-//  })
-//);
-
 router.post(
   '/customers/:id/credit',
   AsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
@@ -34,19 +20,12 @@ router.post(
     const { amount } = req.body;
     const result = await customerService.addCredit(CustomerId.create(id), AvailableCredit.create(amount));
     
-    if (result.isRight()) {
-      const customer = result.fold(
-        () => { throw new Error("Unexpected: result is right but fold left function called"); },
-        r => r
-      );
-      res.status(200).json(CustomerMapper.toDTO(customer));
-    } else {
-      next(result.fold(
-        error => error,
-        () => { throw new Error("Unexpected: result is left but fold right function called"); }
-      ));
+    result.fold(
+      error => next(error),
+      customer => res.status(200).json(CustomerMapper.toDTO(customer))
+    );
     }
-  })
+  )
 );
 
 router.post(

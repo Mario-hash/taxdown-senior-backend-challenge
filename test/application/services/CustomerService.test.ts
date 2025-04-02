@@ -8,6 +8,7 @@ import { AvailableCredit } from "../../../src/domain/vo/AvailableCredit";
 import { DuplicateCustomerIdException } from "../../../src/domain/exceptions/DuplicateCustomerIdException";
 import { EmailAlreadyExistsException } from "../../../src/domain/exceptions/EmailAlreadyExistsException";
 import { NotFoundError } from "../../../src/domain/exceptions/NotFoundError";
+import { Either } from "../../../src/shared/Either";
 
 describe('CustomerService addCredit initial test', () => {
   let customerRepository: jest.Mocked<CustomerRepository>;
@@ -41,28 +42,40 @@ describe('CustomerService addCredit initial test', () => {
 
   it('should add credit to a customer', async () => {
     // Act
-    const updatedCustomer = await customerService.addCredit(tesId, AvailableCredit.create(50));
+    const result = await customerService.addCredit(tesId, AvailableCredit.create(50));
     
     // Assert
-    expect(updatedCustomer.availableCredit.getValue()).toBe(150);
-    expect(customerRepository.findById).toHaveBeenCalledWith(tesId);
-    expect(customerRepository.update).toHaveBeenCalledWith(updatedCustomer);
-    expect(customerRepository.update).toHaveBeenCalledWith(
-      expect.objectContaining({
-        availableCredit: expect.objectContaining({
-          value: 150
-        })
-      })
+    expect(Either.right(result));
+    result.fold(
+      error => fail("Expected a valid customer, but got error: " + error.message),
+      updatedCustomer => {
+        expect(updatedCustomer.availableCredit.getValue()).toBe(150);
+        expect(customerRepository.findById).toHaveBeenCalledWith(tesId);
+        expect(customerRepository.update).toHaveBeenCalledWith(updatedCustomer);
+        expect(customerRepository.update).toHaveBeenCalledWith(
+          expect.objectContaining({
+            availableCredit: expect.objectContaining({
+              value: 150
+            })
+          })
+        );
+      }
     );
   });
 
   it('should throw an error if customer is not found', async () => {
-    // Act
-    customerRepository.findById.mockResolvedValueOnce(null);
-    
-    // Assert
-    await expect(customerService.addCredit(tesId, testCredit))
-      .rejects.toThrow("Customer with id " + tesId.getValue() + " not found");
+  // Arrange
+  customerRepository.findById.mockResolvedValueOnce(null);
+  
+  // Act
+  const result = await customerService.addCredit(tesId, testCredit);
+  
+  // Assert
+  expect(Either.left(result));
+  result.fold(
+    error => expect(error.message).toBe("Customer with id " + tesId.getValue() + " not found"),
+    _ => fail("Expected a Left with NotFoundError, but got Right")
+    );
   });
 
   it('createCustomer should create and return the customer', async () => {

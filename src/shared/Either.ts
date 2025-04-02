@@ -1,5 +1,3 @@
-// src/shared/Either.ts
-
 export type Left<L> = { kind: "left"; leftValue: L };
 export type Right<R> = { kind: "right"; rightValue: R };
 export type EitherValue<L, R> = Left<L> | Right<R>;
@@ -15,13 +13,13 @@ export class Either<L, R> {
     return new Either<L, R>({ kind: "right", rightValue: value });
   }
 
-  isLeft(): boolean {
-    return this.value.kind === "left";
-  }
-
-  isRight(): boolean {
-    return this.value.kind === "right";
-  }
+  //isLeft(): boolean {
+  //  return this.value.kind === "left";
+  //}
+  //
+  //isRight(): boolean {
+  //  return this.value.kind === "right";
+  //}
 
   fold<T>(leftFn: (left: L) => T, rightFn: (right: R) => T): T {
         switch (this.value.kind) {

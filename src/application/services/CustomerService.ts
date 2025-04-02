@@ -10,15 +10,6 @@ import { Either } from '../../shared/Either';
 export class CustomerService {
   constructor(private customerRepository: CustomerRepository) {}
 
-  //async addCredit(customerId: CustomerId, amount: AvailableCredit): Promise<Customer> {
-  //  const customer = await this.customerRepository.findById(customerId);
-  //  if (!customer) {
-  //    throw new NotFoundError('Customer', customerId.getValue());
-  //  }
-  //  customer.addCredit(amount);
-  //  return this.customerRepository.update(customer);
-  //}
-
   async addCredit(customerId: CustomerId, amount: AvailableCredit): Promise<Either<NotFoundError, Customer>> {
     const customer = await this.customerRepository.findById(customerId);
     if (!customer) {
