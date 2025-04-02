@@ -76,8 +76,9 @@ export class CustomerService {
     return Either.right(updated);
   }
 
-  async deleteCustomer(customerId: CustomerId): Promise<void> {
-    return this.customerRepository.delete(customerId);
+  async deleteCustomer(customerId: CustomerId): Promise<Either<null, void>> {
+    await this.customerRepository.delete(customerId);
+    return Either.right(undefined); // TO-DO Aqui rellenaremos cuando conectemos con mongo o la bbdd correspondiente e implementemos errores como mongoException
   }
 
   async listCustomersSortedByCredit(): Promise<Customer[]> {

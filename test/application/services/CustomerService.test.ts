@@ -269,12 +269,17 @@ describe('CustomerService addCredit initial test', () => {
       .toThrow(MalformedEmailException);
   });
 
-  it('deleteCustomer should call repository.delete with the given id', async () => {
+  it('deleteCustomer should return right when deletion succeeds', async () => {
     // Act
-    await customerService.deleteCustomer(tesId);
-    
+    const result = await customerService.deleteCustomer(tesId);
+  
     // Assert
     expect(customerRepository.delete).toHaveBeenCalledWith(tesId);
+    expect(Either.right(result));
+    result.fold(
+      _ => fail('Expected Right but got Left'),
+      success => expect(success).toBeUndefined()
+    );
   });
 
   it('listCustomersSortedByCredit should return customers sorted descending by availableCredit', async () => {

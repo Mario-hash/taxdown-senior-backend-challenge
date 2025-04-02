@@ -70,10 +70,14 @@ router.put(
 
 router.delete(
   '/customers/:id',
-  AsyncHandler(async (req: Request, res: Response) => {
+  AsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    await customerService.deleteCustomer(CustomerId.create(id));
-    res.status(200).json({ message: `Customer ${id} deleted` });
+    const result = await customerService.deleteCustomer(CustomerId.create(id));
+
+    result.fold(
+      error => next(error),
+      _ => res.status(200).json({ message: `Customer ${id} deleted` })
+    );
   })
 );
 
