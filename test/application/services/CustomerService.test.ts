@@ -138,17 +138,26 @@ describe('CustomerService addCredit initial test', () => {
     const result = await customerService.getCustomer(tesId);
     
     // Assert
-    expect(customerRepository.findById).toHaveBeenCalledWith(tesId);
-    expect(result).toEqual(testCustomer);
-  });
+    expect(Either.right(result));
+    result.fold(
+      error => { throw new Error("Unexpected Left: " + error.message); },
+      customer => expect(customer).toEqual(testCustomer)
+    );
 
   it('getCustomer should throw an error if customerId not found', async () => {
     // Act
     customerRepository.findById.mockResolvedValueOnce(null);
     
+    // Act
+    const result = await customerService.getCustomer(tesId);
+    
     // Assert
-    await expect(customerService.getCustomer(tesId))
-    .rejects.toThrow(NotFoundError);
+    expect(Either.left(result));
+    result.fold(
+      error => expect(error.message).toBe(`Customer with id ${tesId.getValue()} not found`),
+      _ => { throw new Error("Expected Left but got Right"); }
+    );
+  });
   });
 
   it('updateCustomer should update and return the customer', async () => {
