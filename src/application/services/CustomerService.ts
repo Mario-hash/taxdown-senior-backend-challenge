@@ -5,49 +5,95 @@ import { AvailableCredit } from '../../domain/vo/AvailableCredit';
 import { NotFoundError } from '../../domain/exceptions/NotFoundError';
 import { EmailAlreadyExistsException } from '../../domain/exceptions/EmailAlreadyExistsException';
 import { DuplicateCustomerIdException } from '../../domain/exceptions/DuplicateCustomerIdException';
+import { Either } from '../../shared/Either';
+import { CustomerDTO } from '../dto/CustomerDTO';
+import { CustomerMapper } from '../mapper/CustomerMapper';
+import { CustomerEmail } from '../../domain/vo/CustomerEmail';
+import { InvalidSortOrderException } from '../../domain/exceptions/InvalidSortOrderException';
 
 export class CustomerService {
   constructor(private customerRepository: CustomerRepository) {}
 
-  async addCredit(customerId: CustomerId, amount: AvailableCredit): Promise<Customer> {
+  async addCredit(customerId: CustomerId, amount: AvailableCredit): Promise<Either<NotFoundError, Customer>> {
     const customer = await this.customerRepository.findById(customerId);
     if (!customer) {
-      throw new NotFoundError('Customer', customerId.getValue());
+      return Either.left(new NotFoundError('Customer', customerId.getValue()));
     }
     customer.addCredit(amount);
-    return this.customerRepository.update(customer);
+    const updated = await this.customerRepository.update(customer);
+    return Either.right(updated);
   }
 
-  async createCustomer(customer: Customer): Promise<Customer> {
+  async createCustomer(customer: Customer): Promise<Either<DuplicateCustomerIdException | EmailAlreadyExistsException, Customer>> {
     const existingById = await this.customerRepository.findById(customer.id);
     if (existingById) {
-      throw new DuplicateCustomerIdException(customer.id.getValue());
+      return Either.left(new DuplicateCustomerIdException(customer.id.getValue()));
     }
     const existingByEmail = await this.customerRepository.findByEmail(customer.email);
     if (existingByEmail) {
-      throw new EmailAlreadyExistsException(customer.email.getValue());
+      return Either.left(new EmailAlreadyExistsException(customer.email.getValue()));
     }
-    return this.customerRepository.create(customer);
+    const created = await this.customerRepository.create(customer);
+    return Either.right(created);
   }
 
-  async getCustomer(customerId: CustomerId): Promise<Customer | null> {
+  async getCustomer(customerId: CustomerId): Promise<Either<NotFoundError, Customer>> {
     const customer = await this.customerRepository.findById(customerId);
     if (!customer) {
-      throw new NotFoundError('Customer', customerId.getValue());
+      return Either.left(new NotFoundError('Customer', customerId.getValue()));
     }
-    return customer
+    return Either.right(customer);
   }
 
-  async updateCustomer(customer: Customer): Promise<Customer> {
-    return this.customerRepository.update(customer);
+  async updateCustomer(id: string, updateData: Partial<CustomerDTO>): Promise<Either<NotFoundError, Customer>> {
+    const customerId = CustomerId.create(id);
+    const existing = await this.customerRepository.findById(customerId);
+  
+    if (!existing) {
+      return Either.left(new NotFoundError('Customer', customerId.getValue()));
+    }
+
+    const newEmail = updateData.email ?? existing.email.getValue();
+    const sameEmail = existing.email.getValue() === newEmail;
+    
+    if (!sameEmail) {
+      const existingByEmail = await this.customerRepository.findByEmail(CustomerEmail.create(newEmail));
+      if (existingByEmail) {
+        return Either.left(new EmailAlreadyExistsException(newEmail));
+      }
+    }
+  
+    const updatedDTO: CustomerDTO = {
+      id,
+      name: updateData.name ?? existing.name.getValue(),
+      email: updateData.email ?? existing.email.getValue(),
+      availableCredit: updateData.availableCredit !== undefined
+        ? updateData.availableCredit
+        : existing.availableCredit.getValue(),
+    };
+  
+    const updatedEntity = CustomerMapper.toDomain(updatedDTO);
+    const updated = await this.customerRepository.update(updatedEntity);
+    return Either.right(updated);
   }
 
-  async deleteCustomer(customerId: CustomerId): Promise<void> {
-    return this.customerRepository.delete(customerId);
+  async deleteCustomer(customerId: CustomerId): Promise<Either<null, void>> {
+    await this.customerRepository.delete(customerId);
+    return Either.right(undefined); // TO-DO Aqui rellenaremos cuando conectemos con mongo o la bbdd correspondiente e implementemos errores como mongoException
   }
 
-  async listCustomersSortedByCredit(): Promise<Customer[]> {
+  async listCustomersSortedByCredit(order: string = 'desc'): Promise<Either<InvalidSortOrderException, Customer[]>> {
+
+    if (order !== 'asc' && order !== 'desc') {
+      return Either.left(new InvalidSortOrderException(order));
+    }
+    
     const customers = await this.customerRepository.findAll();
-    return customers.sort((a, b) => b.availableCredit.getValue() - a.availableCredit.getValue());
+    const sorted = customers.sort((a, b) => {
+      const diff = a.availableCredit.getValue() - b.availableCredit.getValue();
+      return order === 'asc' ? diff : -diff;
+    });
+  
+    return Either.right(sorted);
   }
 }
