@@ -6,9 +6,9 @@ import { CustomerEmail } from '../../../domain/vo/CustomerEmail';
 import { AvailableCredit } from '../../../domain/vo/AvailableCredit';
 
 export class CustomerPersistenceMapper {
-  static toPersistence(customer: Customer): CustomerPersistence {
+  static toPersistence(customer: Customer): CustomerPersistence & { _id: string } {
     return {
-      id: customer.id.getValue(),
+      _id: customer.id.getValue(),
       name: customer.name.getValue(),
       email: customer.email.getValue(),
       availableCredit: customer.availableCredit.getValue(),
@@ -17,7 +17,7 @@ export class CustomerPersistenceMapper {
 
   static toDomain(data: CustomerPersistence): Customer {
     return new Customer(
-      CustomerId.create(data.id),
+      CustomerId.create(data._id),
       CustomerName.create(data.name),
       CustomerEmail.create(data.email),
       AvailableCredit.create(data.availableCredit)

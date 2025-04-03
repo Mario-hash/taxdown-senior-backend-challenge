@@ -19,7 +19,7 @@ describe('CustomerPersistenceMapper', () => {
     const persistenceModel: CustomerPersistence = CustomerPersistenceMapper.toPersistence(customer);
     // Assert.
     expect(persistenceModel).toEqual({
-      id: '1',
+      _id: '1',
       name: 'Test',
       email: 'test@example.com',
       availableCredit: 100,
@@ -29,7 +29,7 @@ describe('CustomerPersistenceMapper', () => {
   it('should map a persistence model to a domain entity', () => {
     // Arrange
     const persistenceModel: CustomerPersistence = {
-      id: '1',
+      _id: '1',
       name: 'Test',
       email: 'test@example.com',
       availableCredit: 100,
