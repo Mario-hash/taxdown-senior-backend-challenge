@@ -30,7 +30,7 @@ describe('MemoryCustomerRepository', () => {
     const customer = await repo.findById(tesId);
     //Assert
     expect(customer).not.toBeNull();
-    expect(customer?.id).toBe(tesId);
+    expect(customer?.id.getValue()).toBe(tesId.getValue());
   });
 
   it('should update a customer', async () => {
@@ -70,6 +70,6 @@ describe('MemoryCustomerRepository', () => {
     const customer = await repo.findByEmail(testEmail);
     //Assert
     expect(customer).not.toBeNull();
-    expect(customer?.email).toBe(testEmail);
+    expect(customer?.email.getValue()).toBe(testEmail.getValue());
   });
 });
