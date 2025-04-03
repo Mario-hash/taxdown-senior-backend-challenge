@@ -1,0 +1,22 @@
+service: taxdown-backend
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  stage: dev
+  environment:
+    NODE_ENV: production
+    MONGO_DB_NAME: taxdown
+    MONGO_URI: "mongodb+srv://taxdown:taxdown01@cluster0.tertnfs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+functions:
+  app:
+    handler: handler.main
+    events:
+      - httpApi:
+          path: /{proxy+}
+          method: any
+
+plugins:
+  - serverless-offline

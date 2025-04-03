@@ -7,6 +7,7 @@ let mongod: MongoMemoryServer | null = null;
 
 export const getMongoCollection = async (): Promise<Collection<CustomerPersistence>> => {
   if (process.env.NODE_ENV === 'test') {
+
     if (!mongod) {
       mongod = await MongoMemoryServer.create();
     }
@@ -14,8 +15,9 @@ export const getMongoCollection = async (): Promise<Collection<CustomerPersisten
     client = new MongoClient(uri);
     await client.connect();
   } else {
+
+    const uri = process.env.MONGO_URI || 'mongodb://localhost:27017';
     if (!client) {
-      const uri = 'mongodb://localhost:27017';
       client = new MongoClient(uri);
       await client.connect();
     }
