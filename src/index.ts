@@ -1,23 +1,9 @@
-import express from 'express';
-//import customerRouter from './adapters/controllers/CustomerController';
-import { initCustomerRouter } from './adapters/controllers/CustomerController';
-import { ErrorHandler } from './middleware/ErrorHandler';
+import { createApp } from './app';
 
-const app = express();
 const PORT = 3000;
 
 async function main() {
-  app.use(express.json());
-
-  const customerRouter = await initCustomerRouter();
-  app.use('/api', customerRouter);
-
-  app.use(ErrorHandler);
-
-  app.get('/ping', (_req, res) => {
-    res.send('pong');
-  });
-
+  const app = await createApp();
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
   });
