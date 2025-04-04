@@ -1,0 +1,164 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "TaxDown Backend API",
+      "version": "1.0.0",
+      "description": "API for customer management of an online motorbike shop."
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000",
+        "description": "Local server"
+      }
+    ],
+    "paths": {
+      "/api/customers": {
+        "post": {
+          "summary": "Create a customer",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Customer created"
+            },
+            "409": {
+              "description": "Duplicate customer"
+            }
+          }
+        },
+        "get": {
+          "summary": "List customers sorted by available credit",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "sort",
+              "schema": { "type": "string", "enum": ["asc", "desc"] },
+              "description": "Sort order: asc or desc"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of customers",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": { "$ref": "#/components/schemas/Customer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/customers/{id}": {
+        "get": {
+          "summary": "Get customer by ID",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Customer details" },
+            "404": { "description": "Customer not found" }
+          }
+        },
+        "put": {
+          "summary": "Update a customer",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Customer" }
+              }
+            }
+          },
+          "responses": {
+            "200": { "description": "Customer updated" },
+            "404": { "description": "Customer not found" }
+          }
+        },
+        "delete": {
+          "summary": "Delete a customer",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Customer deleted" },
+            "404": { "description": "Customer not found" }
+          }
+        }
+      },
+      "/api/customers/{id}/credit": {
+        "post": {
+          "summary": "Add credit to a customer",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "amount": { "type": "number" }
+                  },
+                  "required": ["amount"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": { "description": "Credit added" },
+            "404": { "description": "Customer not found" }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Customer": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" },
+            "email": { "type": "string" },
+            "availableCredit": { "type": "number" }
+          },
+          "required": ["id", "name", "email"]
+        }
+      }
+    }
+  }
+  

@@ -91,9 +91,9 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-33749a3b-0068",
-          "S3Key": "serverless/taxdown-backend/dev/1743712466810-2025-04-03T20:34:26.810Z/taxdown-backend.zip"
+          "S3Key": "serverless/taxdown-backend/dev/1743754620299-2025-04-04T08:17:00.299Z/taxdown-backend.zip"
         },
-        "Handler": "handler.main",
+        "Handler": "dist/handler.main",
         "Runtime": "nodejs18.x",
         "FunctionName": "taxdown-backend-dev-app",
         "MemorySize": 1024,
@@ -102,8 +102,7 @@
           "Variables": {
             "NODE_ENV": "production",
             "MONGO_DB_NAME": "taxdown",
-            "MONGO_URI": "mongodb+srv://taxdown:taxdown01@cluster0.tertnfs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-            "NODE_OPTIONS": "--enable-source-maps"
+            "MONGO_URI": "mongodb+srv://taxdown:taxdown01@cluster0.tertnfs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
           }
         },
         "Role": {
@@ -117,14 +116,14 @@
         "AppLogGroup"
       ]
     },
-    "AppLambdaVersionqll4Fe4evDXBIJnGFo9O8ft1WtUABWkVCT07N0WaA": {
+    "AppLambdaVersionQywwxGOmA39PErtADVoyr5hwcBrUFVTDwvctoKsDKg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "8Qwtz5BxE7jeWXkzEzyCWmZG8juthvKE5Cwq1RSWE5s="
+        "CodeSha256": "wLYsLsXcxkXcwbndhWyZWKlF/GAIuiSUGG6EFPEBUOM="
       }
     },
     "HttpApi": {
@@ -233,7 +232,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionqll4Fe4evDXBIJnGFo9O8ft1WtUABWkVCT07N0WaA"
+        "Ref": "AppLambdaVersionQywwxGOmA39PErtADVoyr5hwcBrUFVTDwvctoKsDKg"
       },
       "Export": {
         "Name": "sls-taxdown-backend-dev-AppLambdaFunctionQualifiedArn"

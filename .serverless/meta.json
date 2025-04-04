@@ -109,9 +109,9 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-33749a3b-0068",
-                  "S3Key": "serverless/taxdown-backend/dev/1743712466810-2025-04-03T20:34:26.810Z/taxdown-backend.zip"
+                  "S3Key": "serverless/taxdown-backend/dev/1743754620299-2025-04-04T08:17:00.299Z/taxdown-backend.zip"
                 },
-                "Handler": "handler.main",
+                "Handler": "dist/handler.main",
                 "Runtime": "nodejs18.x",
                 "FunctionName": "taxdown-backend-dev-app",
                 "MemorySize": 1024,
@@ -120,8 +120,7 @@
                   "Variables": {
                     "NODE_ENV": "production",
                     "MONGO_DB_NAME": "taxdown",
-                    "MONGO_URI": "mongodb+srv://taxdown:taxdown01@cluster0.tertnfs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-                    "NODE_OPTIONS": "--enable-source-maps"
+                    "MONGO_URI": "mongodb+srv://taxdown:taxdown01@cluster0.tertnfs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
                   }
                 },
                 "Role": {
@@ -135,14 +134,14 @@
                 "AppLogGroup"
               ]
             },
-            "AppLambdaVersionqll4Fe4evDXBIJnGFo9O8ft1WtUABWkVCT07N0WaA": {
+            "AppLambdaVersionQywwxGOmA39PErtADVoyr5hwcBrUFVTDwvctoKsDKg": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "AppLambdaFunction"
                 },
-                "CodeSha256": "8Qwtz5BxE7jeWXkzEzyCWmZG8juthvKE5Cwq1RSWE5s="
+                "CodeSha256": "wLYsLsXcxkXcwbndhWyZWKlF/GAIuiSUGG6EFPEBUOM="
               }
             },
             "HttpApi": {
@@ -251,7 +250,7 @@
             "AppLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "AppLambdaVersionqll4Fe4evDXBIJnGFo9O8ft1WtUABWkVCT07N0WaA"
+                "Ref": "AppLambdaVersionQywwxGOmA39PErtADVoyr5hwcBrUFVTDwvctoKsDKg"
               },
               "Export": {
                 "Name": "sls-taxdown-backend-dev-AppLambdaFunctionQualifiedArn"
@@ -297,7 +296,7 @@
       },
       "functions": {
         "app": {
-          "handler": "handler.main",
+          "handler": "dist/handler.main",
           "events": [
             {
               "httpApi": {
@@ -309,15 +308,12 @@
             }
           ],
           "name": "taxdown-backend-dev-app",
-          "environment": {
-            "NODE_OPTIONS": "--enable-source-maps"
-          },
           "package": {},
           "memory": 1024,
           "timeout": 6,
           "runtime": "nodejs18.x",
           "vpc": {},
-          "versionLogicalId": "AppLambdaVersionqll4Fe4evDXBIJnGFo9O8ft1WtUABWkVCT07N0WaA"
+          "versionLogicalId": "AppLambdaVersionQywwxGOmA39PErtADVoyr5hwcBrUFVTDwvctoKsDKg"
         }
       },
       "plugins": [
@@ -428,9 +424,9 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-33749a3b-0068",
-                "S3Key": "serverless/taxdown-backend/dev/1743712466810-2025-04-03T20:34:26.810Z/taxdown-backend.zip"
+                "S3Key": "serverless/taxdown-backend/dev/1743754620299-2025-04-04T08:17:00.299Z/taxdown-backend.zip"
               },
-              "Handler": "handler.main",
+              "Handler": "dist/handler.main",
               "Runtime": "nodejs18.x",
               "FunctionName": "taxdown-backend-dev-app",
               "MemorySize": 1024,
@@ -439,8 +435,7 @@
                 "Variables": {
                   "NODE_ENV": "production",
                   "MONGO_DB_NAME": "taxdown",
-                  "MONGO_URI": "mongodb+srv://taxdown:taxdown01@cluster0.tertnfs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-                  "NODE_OPTIONS": "--enable-source-maps"
+                  "MONGO_URI": "mongodb+srv://taxdown:taxdown01@cluster0.tertnfs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
                 }
               },
               "Role": {
@@ -454,14 +449,14 @@
               "AppLogGroup"
             ]
           },
-          "AppLambdaVersionqll4Fe4evDXBIJnGFo9O8ft1WtUABWkVCT07N0WaA": {
+          "AppLambdaVersionQywwxGOmA39PErtADVoyr5hwcBrUFVTDwvctoKsDKg": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "8Qwtz5BxE7jeWXkzEzyCWmZG8juthvKE5Cwq1RSWE5s="
+              "CodeSha256": "wLYsLsXcxkXcwbndhWyZWKlF/GAIuiSUGG6EFPEBUOM="
             }
           },
           "HttpApi": {
@@ -570,7 +565,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionqll4Fe4evDXBIJnGFo9O8ft1WtUABWkVCT07N0WaA"
+              "Ref": "AppLambdaVersionQywwxGOmA39PErtADVoyr5hwcBrUFVTDwvctoKsDKg"
             },
             "Export": {
               "Name": "sls-taxdown-backend-dev-AppLambdaFunctionQualifiedArn"
@@ -623,7 +618,7 @@
       "serviceProvider": null,
       "instanceParameters": null
     },
-    "serviceRawFile": "service: taxdown-backend\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: nodejs18.x\r\n  region: us-east-1\r\n  stage: dev\r\n  environment:\r\n    NODE_ENV: production\r\n    MONGO_DB_NAME: taxdown\r\n    # Puedes agregar otras variables de entorno necesarias, como la URI de Mongo en producción:\r\n    MONGO_URI: \"mongodb+srv://taxdown:taxdown01@cluster0.tertnfs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0\"\r\n\r\nfunctions:\r\n  app:\r\n    handler: handler.main\r\n    events:\r\n      - httpApi:\r\n          path: /{proxy+}\r\n          method: any\r\n\r\nplugins:\r\n  - serverless-offline # Opcional, para correr localmente\r\n",
+    "serviceRawFile": "service: taxdown-backend\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: nodejs18.x\r\n  region: us-east-1\r\n  stage: dev\r\n  environment:\r\n    NODE_ENV: production\r\n    MONGO_DB_NAME: taxdown\r\n    MONGO_URI: \"mongodb+srv://taxdown:taxdown01@cluster0.tertnfs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0\"\r\n\r\nfunctions:\r\n  app:\r\n    handler: dist/handler.main\r\n    events:\r\n      - httpApi:\r\n          path: /{proxy+}\r\n          method: any\r\n\r\nplugins:\r\n  - serverless-offline\r\n",
     "command": [
       "deploy"
     ],
@@ -634,20 +629,20 @@
     "userName": "taxdownmario",
     "serviceProviderAwsAccountId": "961353952405",
     "serviceProviderAwsCfStackName": "taxdown-backend-dev",
-    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:961353952405:stack/taxdown-backend-dev/fd133020-10ba-11f0-b13d-0e6b2b8a65b5",
-    "serviceProviderAwsCfStackCreated": "2025-04-03T18:39:34.584Z",
-    "serviceProviderAwsCfStackUpdated": "2025-04-03T20:18:33.416Z",
-    "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:961353952405:stack/taxdown-backend-dev/363d6880-112d-11f0-845b-0affe9f15e99",
+    "serviceProviderAwsCfStackCreated": "2025-04-04T08:17:13.121Z",
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": "CREATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
         "OutputKey": "AppLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:961353952405:function:taxdown-backend-dev-app:2",
+        "OutputValue": "arn:aws:lambda:us-east-1:961353952405:function:taxdown-backend-dev-app:9",
         "Description": "Current Lambda function version",
         "ExportName": "sls-taxdown-backend-dev-AppLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "HttpApiId",
-        "OutputValue": "08js64zpvg",
+        "OutputValue": "qd8lntyxi5",
         "Description": "Id of the HTTP API",
         "ExportName": "sls-taxdown-backend-dev-HttpApiId"
       },
@@ -658,7 +653,7 @@
       },
       {
         "OutputKey": "HttpApiUrl",
-        "OutputValue": "https://08js64zpvg.execute-api.us-east-1.amazonaws.com",
+        "OutputValue": "https://qd8lntyxi5.execute-api.us-east-1.amazonaws.com",
         "Description": "URL of the HTTP API",
         "ExportName": "sls-taxdown-backend-dev-HttpApiUrl"
       }
@@ -756,9 +751,9 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-33749a3b-0068",
-              "S3Key": "serverless/taxdown-backend/dev/1743712466810-2025-04-03T20:34:26.810Z/taxdown-backend.zip"
+              "S3Key": "serverless/taxdown-backend/dev/1743754620299-2025-04-04T08:17:00.299Z/taxdown-backend.zip"
             },
-            "Handler": "handler.main",
+            "Handler": "dist/handler.main",
             "Runtime": "nodejs18.x",
             "FunctionName": "taxdown-backend-dev-app",
             "MemorySize": 1024,
@@ -767,8 +762,7 @@
               "Variables": {
                 "NODE_ENV": "production",
                 "MONGO_DB_NAME": "taxdown",
-                "MONGO_URI": "mongodb+srv://taxdown:taxdown01@cluster0.tertnfs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-                "NODE_OPTIONS": "--enable-source-maps"
+                "MONGO_URI": "mongodb+srv://taxdown:taxdown01@cluster0.tertnfs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
               }
             },
             "Role": {
@@ -782,14 +776,14 @@
             "AppLogGroup"
           ]
         },
-        "AppLambdaVersionqll4Fe4evDXBIJnGFo9O8ft1WtUABWkVCT07N0WaA": {
+        "AppLambdaVersionQywwxGOmA39PErtADVoyr5hwcBrUFVTDwvctoKsDKg": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "AppLambdaFunction"
             },
-            "CodeSha256": "8Qwtz5BxE7jeWXkzEzyCWmZG8juthvKE5Cwq1RSWE5s="
+            "CodeSha256": "wLYsLsXcxkXcwbndhWyZWKlF/GAIuiSUGG6EFPEBUOM="
           }
         },
         "HttpApi": {
@@ -898,7 +892,7 @@
         "AppLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "AppLambdaVersionqll4Fe4evDXBIJnGFo9O8ft1WtUABWkVCT07N0WaA"
+            "Ref": "AppLambdaVersionQywwxGOmA39PErtADVoyr5hwcBrUFVTDwvctoKsDKg"
           },
           "Export": {
             "Name": "sls-taxdown-backend-dev-AppLambdaFunctionQualifiedArn"
