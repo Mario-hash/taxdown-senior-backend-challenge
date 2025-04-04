@@ -91,7 +91,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-33749a3b-0068",
-          "S3Key": "serverless/taxdown-backend/dev/1743754620299-2025-04-04T08:17:00.299Z/taxdown-backend.zip"
+          "S3Key": "serverless/taxdown-backend/dev/1743766373018-2025-04-04T11:32:53.018Z/taxdown-backend.zip"
         },
         "Handler": "dist/handler.main",
         "Runtime": "nodejs18.x",
@@ -116,14 +116,14 @@
         "AppLogGroup"
       ]
     },
-    "AppLambdaVersionQywwxGOmA39PErtADVoyr5hwcBrUFVTDwvctoKsDKg": {
+    "AppLambdaVersionnHStMgv0BtLVnpElZfaixKl1kIghN9pgtCAbr4S08c": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "wLYsLsXcxkXcwbndhWyZWKlF/GAIuiSUGG6EFPEBUOM="
+        "CodeSha256": "neNAhGUNePqAYwG/2+zwXEAfphsbCMDsAdzbVrpcdlM="
       }
     },
     "HttpApi": {
@@ -232,7 +232,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionQywwxGOmA39PErtADVoyr5hwcBrUFVTDwvctoKsDKg"
+        "Ref": "AppLambdaVersionnHStMgv0BtLVnpElZfaixKl1kIghN9pgtCAbr4S08c"
       },
       "Export": {
         "Name": "sls-taxdown-backend-dev-AppLambdaFunctionQualifiedArn"

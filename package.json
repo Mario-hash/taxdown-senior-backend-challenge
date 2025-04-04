@@ -10,7 +10,8 @@
     "build": "tsc",
     "test": "jest --config jest.config.js --coverage",
     "start": "node dist/index.js",
-    "debug": "node --inspect -r ts-node/register src/index.ts"
+    "debug": "node --inspect -r ts-node/register src/index.ts",
+    "deploy:patch-swagger": "serverless deploy && node scripts/patch-swagger.js && serverless deploy"
   },
   "repository": {
     "type": "git",
