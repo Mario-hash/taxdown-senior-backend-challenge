@@ -12,6 +12,7 @@ import { Either } from "../../../src/shared/Either";
 import { CustomerDTO } from "../../../src/application/dto/CustomerDTO";
 import { MalformedEmailException } from "../../../src/domain/exceptions/vo/customeremail/MalformedEmailException";
 import { InvalidSortOrderException } from "../../../src/domain/exceptions/InvalidSortOrderException";
+import { CustomerHasPositiveCreditException } from "../../../src/domain/exceptions/CustomerHasPositiveCreditException";
 
 describe('CustomerService addCredit initial test', () => {
   let customerRepository: jest.Mocked<CustomerRepository>;
@@ -271,15 +272,39 @@ describe('CustomerService addCredit initial test', () => {
   });
 
   it('deleteCustomer should return right when deletion succeeds', async () => {
+    const customerWithoutCredit = new Customer(
+      tesId,
+      testName,
+      testEmail,
+      AvailableCredit.create(0)
+    );
+    customerRepository.findById.mockResolvedValueOnce(customerWithoutCredit);
+    
     // Act
     const result = await customerService.deleteCustomer(tesId);
   
     // Assert
     expect(customerRepository.delete).toHaveBeenCalledWith(tesId);
-    expect(Either.right(result));
     result.fold(
       _ => fail('Expected Right but got Left'),
       success => expect(success).toBeUndefined()
+    );
+  });
+
+  it('deleteCustomer should return Left with CustomerHasPositiveCreditException when availableCredit > 0', async () => {
+    // Act
+    const result = await customerService.deleteCustomer(tesId);
+    
+    // Assert
+    expect(customerRepository.delete).not.toHaveBeenCalled();
+    result.fold(
+      error => {
+        expect(error).toBeInstanceOf(CustomerHasPositiveCreditException);
+        expect(error.message).toBe(
+          `Customer with id ${tesId.getValue()} cannot be deleted because available credit is greater than zero (100).`
+        );
+      },
+      _ => fail('Expected Left with CustomerHasPositiveCreditException but got Right')
     );
   });
 
