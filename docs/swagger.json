@@ -110,7 +110,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Customer"
+                "$ref": "#/components/schemas/CustomerUpdate"
               }
             }
           }
@@ -194,7 +194,8 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "readOnly": true
           },
           "name": {
             "type": "string"
@@ -208,6 +209,24 @@
         },
         "required": [
           "id",
+          "name",
+          "email"
+        ]
+      },
+      "CustomerUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "availableCredit": {
+            "type": "number"
+          }
+        },
+        "required": [
           "name",
           "email"
         ]
