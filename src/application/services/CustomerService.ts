@@ -10,6 +10,7 @@ import { CustomerDTO } from '../dto/CustomerDTO';
 import { CustomerMapper } from '../mapper/CustomerMapper';
 import { CustomerEmail } from '../../domain/vo/CustomerEmail';
 import { InvalidSortOrderException } from '../../domain/exceptions/InvalidSortOrderException';
+import { CustomerHasPositiveCreditException } from '../../domain/exceptions/CustomerHasPositiveCreditException';
 
 export class CustomerService {
   constructor(private customerRepository: CustomerRepository) {}
@@ -77,9 +78,15 @@ export class CustomerService {
     return Either.right(updated);
   }
 
-  async deleteCustomer(customerId: CustomerId): Promise<Either<null, void>> {
+  async deleteCustomer(customerId: CustomerId): Promise<Either<CustomerHasPositiveCreditException, void>> {
+    const customer = await this.customerRepository.findById(customerId);
+
+    if (customer && customer.availableCredit.getValue() > 0) {
+      return Either.left(new CustomerHasPositiveCreditException(customerId.getValue(), customer.availableCredit.getValue()));
+    }
+    
     await this.customerRepository.delete(customerId);
-    return Either.right(undefined); // TO-DO Aqui rellenaremos cuando conectemos con mongo o la bbdd correspondiente e implementemos errores como mongoException
+    return Either.right(undefined);
   }
 
   async listCustomersSortedByCredit(order: string = 'desc'): Promise<Either<InvalidSortOrderException, Customer[]>> {

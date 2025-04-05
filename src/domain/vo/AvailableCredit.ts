@@ -1,5 +1,6 @@
 import { InvalidAvailableCreditException } from '../exceptions/vo/availablecredit/InvalidAvailableCreditException';
 import { NegativeCreditException } from '../exceptions/vo/availablecredit/NegativeCreditException';
+import { TooManyDecimalsAvailableCreditException } from '../exceptions/vo/availablecredit/TooManyDecimalsAvailableCreditException ';
 export class AvailableCredit {
   private readonly value: number;
 
@@ -13,6 +14,9 @@ export class AvailableCredit {
     }
     if (value < 0) {
       throw new NegativeCreditException(value);
+    }
+    if (!Number.isInteger(value * 100)) {
+      throw new TooManyDecimalsAvailableCreditException(value);
     }
     return new AvailableCredit(value);
   }

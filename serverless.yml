@@ -6,9 +6,9 @@ provider:
   region: us-east-1
   stage: dev
   environment:
-    NODE_ENV: production
-    MONGO_DB_NAME: taxdown
-    MONGO_URI: "mongodb+srv://taxdown:taxdown01@cluster0.tertnfs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    NODE_ENV: ${env:NODE_ENV}
+    MONGO_DB_NAME: ${env:MONGO_DB_NAME}
+    MONGO_URI: ${env:MONGO_URI}
 
 functions:
   app:
