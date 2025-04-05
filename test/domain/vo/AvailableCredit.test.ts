@@ -1,5 +1,6 @@
 import { InvalidAvailableCreditException } from '../../../src/domain/exceptions/vo/availablecredit/InvalidAvailableCreditException';
 import { NegativeCreditException } from '../../../src/domain/exceptions/vo/availablecredit/NegativeCreditException';
+import { TooManyDecimalsAvailableCreditException } from '../../../src/domain/exceptions/vo/availablecredit/TooManyDecimalsAvailableCreditException ';
 import { AvailableCredit } from '../../../src/domain/vo/AvailableCredit';
 
 describe('AvailableCredit Value Object', () => {
@@ -33,5 +34,12 @@ describe('AvailableCredit Value Object', () => {
     const invalidCredit: any = "abc";
     // Act & Assert
     expect(() => AvailableCredit.create(invalidCredit)).toThrow(new InvalidAvailableCreditException());
+  });
+
+  it('should throw an error if provided value has more than two decimals', () => {
+    // Arrange
+    const creditWithExtraDecimals = 12.345;
+    // Act & Assert
+    expect(() => AvailableCredit.create(creditWithExtraDecimals)).toThrow(TooManyDecimalsAvailableCreditException);
   });
 });

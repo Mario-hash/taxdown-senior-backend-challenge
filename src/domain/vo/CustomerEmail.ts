@@ -8,11 +8,12 @@ export class CustomerEmail {
   }
 
   public static create(value: string): CustomerEmail {
-    const emailRegex = /\S+@\S+\.\S+/;
-    if (!emailRegex.test(value)) {
-      throw new MalformedEmailException(value);
+    const normalized = value.toLowerCase();
+    const emailRegex = /^(?!.*@.*@)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    if (!emailRegex.test(normalized)) {
+      throw new MalformedEmailException(normalized);
     }
-    return new CustomerEmail(value);
+    return new CustomerEmail(normalized);
   }
 
   public getValue(): string {
