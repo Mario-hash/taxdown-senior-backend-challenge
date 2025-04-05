@@ -1,0 +1,971 @@
+{
+	"info": {
+		"_postman_id": "65fda0bc-41f4-4178-82fd-62dac62868f8",
+		"name": "Deployed taxdown challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4216579"
+	},
+	"item": [
+		{
+			"name": "Create Customer",
+			"item": [
+				{
+					"name": "Basic Create Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"3\",\r\n  \"name\": \"Javi\",\r\n  \"email\": \"Javi@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Basic Create Customer with availableCredit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"2\",\r\n  \"name\": \"javi\",\r\n  \"email\": \"javi@example.com\",\r\n  \"availableCredit\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Create Customer: Empty id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \" \",\r\n  \"name\": \"Javi\",\r\n  \"email\": \"javi@example.com\",\r\n  \"availableCredit\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Create Customer: Empty Name",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"2\",\r\n  \"name\": \" \",\r\n  \"email\": \"javi@example.com\",\r\n  \"availableCredit\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Create Customer: Empty  email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"2\",\r\n  \"name\": \"javi\",\r\n  \"email\": \" \",\r\n  \"availableCredit\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Create Customer: Invalid format email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"2\",\r\n  \"name\": \"javi\",\r\n  \"email\": \"javigmail.com\",\r\n  \"availableCredit\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Create Customer: Invalid json: Not id field",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"javi\",\r\n  \"email\": \"javigmail.com\",\r\n  \"availableCredit\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Create Customer: Invalid json: Not id,name fields field",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"javigmail.com\",\r\n  \"availableCredit\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Create Customer: Invalid json: Any mandatory field",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"availableCredit\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Customers",
+			"item": [
+				{
+					"name": "Basic get all customers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers/",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Basic get all customers asc",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers?sort=asc",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Basic get all customers desc",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers?sort=asc",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Basic get all customers Invalid Param",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers?sort=anything",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "anything"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Customer By Id",
+			"item": [
+				{
+					"name": "Basic get all customer by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers/",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Basic get all customer by not Existing Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers/9999",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers",
+								"9999"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update Customer",
+			"item": [
+				{
+					"name": "Update customer name",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Updated Name\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers/1",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update customer email",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"testUpdate@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers/1",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update customer credit",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"availableCredit\": 150\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers/1",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update customer invalid credit",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"availableCredit\": -150\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers/1",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update customer name, email",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"New Name\",\r\n  \"email\": \"newemail@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers/1",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update customer name, email, credit",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Completely Updated\",\r\n  \"email\": \"completelyupdated@example.com\",\r\n  \"availableCredit\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers/1",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update customer repeated email",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Completely Updated\",\r\n  \"email\": \"completelyupdated@example.com\",\r\n  \"availableCredit\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers/11",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers",
+								"11"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "delete",
+			"item": [
+				{
+					"name": "Delete customer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers/11",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Delete customer credit > 0",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers/3",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AddCredit",
+			"item": [
+				{
+					"name": "Basic add credit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"amount\": 87\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/customers/ /credit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"customers",
+								" ",
+								"credit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Negative add credit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"amount\": -87\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers/1/credit",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers",
+								"1",
+								"credit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid id to add credit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"amount\": 87\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers/ /credit",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers",
+								" ",
+								"credit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Not found customer to add credit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"amount\": 87\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qyxnawdar1.execute-api.us-east-1.amazonaws.com/api/customers/ /credit",
+							"protocol": "https",
+							"host": [
+								"qyxnawdar1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"customers",
+								" ",
+								"credit"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
